@@ -37,4 +37,8 @@ public class State {
                 "        | values: " + values + '\n' +
                 "        | transitions: " + transitions;
     }
+
+    public String getName() {
+        return name;
+    }
 }
