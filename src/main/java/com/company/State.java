@@ -6,9 +6,9 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 
 public class State {
-    private final String name;
-    private final ArrayList<String> values;
-    private final ArrayList<String> transitions;
+    final String name;
+    final ArrayList<String> values;
+    final ArrayList<String> transitions;
 
     public State(Object input) {
         JSONObject state = (JSONObject) input;

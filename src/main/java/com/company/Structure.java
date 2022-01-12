@@ -6,7 +6,7 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 
 public class Structure {
-    private final ArrayList<State> states;
+    final ArrayList<State> states;
     private final String initialState;
 
     public Structure(Object input) {
