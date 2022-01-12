@@ -1,0 +1,34 @@
+{
+  "initialStates": [ "S0", "S3" ],
+  "states":
+  [{
+    "name": "S0",
+    "values": [ "g" ],
+    "transitions": [ "S0", "S1" ]
+  },
+    {
+      "name": "S1",
+      "values": [ "s" ],
+      "transitions": [ "S2" ]
+    },
+    {
+      "name": "S2",
+      "values": [ "w" ],
+      "transitions": [ "S1", "S3" ]
+    },
+    {
+      "name": "S3",
+      "values": [ "g", "b" ],
+      "transitions": [ "S4" ]
+    },
+    {
+      "name": "S4",
+      "values": [ "g", "b" ],
+      "transitions": [ "S5" ]
+    },
+    {
+      "name": "S5",
+      "values": [ "g", "b" ],
+      "transitions": [ "S4", "S5" ]
+    }]
+}

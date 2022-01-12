@@ -1,4 +1,4 @@
-{ "initialState": "S0",
+{ "initialStates": [ "S0" ],
   "states":  [
   { "name": "S0",
     "values": [ "a", "b" ],

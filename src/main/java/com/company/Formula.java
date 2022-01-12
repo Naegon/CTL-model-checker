@@ -3,8 +3,6 @@ package com.company;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toSet;
-
 public abstract class Formula {
     // Case one: φ=p
     public static ArrayList<State> marking(ArrayList<State> states, String value) {

@@ -1,5 +1,5 @@
 {
-  "initialState": "S0",
+  "initialStates": [ "S0" ],
   "states":
   [{
     "name": "S0",
