@@ -30,7 +30,7 @@ public class Structure {
         return states.stream()
                 .filter(state -> state.getName().equals(initialState))
                 .toList()
-                .size() != 1;
+                .size() == 1;
     }
 
     @Override
