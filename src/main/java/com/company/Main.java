@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.ArrayList;
+
 import static com.company.Utils.*;
 
 public class Main {
@@ -13,6 +15,7 @@ public class Main {
             e.printStackTrace();
         }
         finally {
+
             System.out.println("Fin du programme");
         }
     }

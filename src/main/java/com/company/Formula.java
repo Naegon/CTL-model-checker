@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public abstract class Formula {
@@ -39,7 +40,33 @@ public abstract class Formula {
         return output;
     }
 
-    public static Boolean CaseFive(Structure structure, String value) { return false; }
+    public static ArrayList<State> until(ArrayList<State> states, String psyOne, String psyTwo) {
+        ArrayList<State> markingTwo = marking(states, psyTwo);
+
+        ArrayList<State> seenBefore = new ArrayList<>();
+        ArrayList<State> result = new ArrayList<>();
+        ArrayList<State> pool = markingTwo;
+
+        while(pool.size()!=0){
+            ArrayList<State> antecedents = new ArrayList<>();
+            State q = pool.get(0);
+            result.add(pool.get(0));
+            pool.remove(0);
+
+            for (State state: states) {
+                if (state.transitions.contains(q.name)) antecedents.add(state);
+            }
+            for (State state: antecedents) {
+                if(seenBefore.contains(state)) break;
+
+                seenBefore.add(state);
+                if (state.values.contains(psyOne) && !result.contains(state)){
+                    pool.add(state);
+                }
+            }
+        }
+        return result;
+    }
     public static Boolean CaseSix(Structure structure, String value) { return false; }
 
 }
