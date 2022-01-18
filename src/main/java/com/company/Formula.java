@@ -2,6 +2,7 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.stream.Collectors;
 
 public abstract class Formula {
@@ -40,7 +41,7 @@ public abstract class Formula {
         return output;
     }
 
-    public static ArrayList<State> until(ArrayList<State> states, String psyOne, String psyTwo) {
+    public static ArrayList<State> untilE(ArrayList<State> states, String psyOne, String psyTwo) {
         ArrayList<State> markingTwo = marking(states, psyTwo);
 
         ArrayList<State> seenBefore = new ArrayList<>();
@@ -48,14 +49,12 @@ public abstract class Formula {
         ArrayList<State> pool = markingTwo;
 
         while(pool.size()!=0){
-            ArrayList<State> antecedents = new ArrayList<>();
             State q = pool.get(0);
             result.add(pool.get(0));
             pool.remove(0);
 
-            for (State state: states) {
-                if (state.transitions.contains(q.name)) antecedents.add(state);
-            }
+            ArrayList<State> antecedents = getAntecedents(states, q);
+
             for (State state: antecedents) {
                 if(seenBefore.contains(state)) break;
 
@@ -67,6 +66,42 @@ public abstract class Formula {
         }
         return result;
     }
-    public static Boolean CaseSix(Structure structure, String value) { return false; }
+
+    public static ArrayList<State> untilA(ArrayList<State> states, String psyOne, String psyTwo) {
+        ArrayList<State> markingOne = marking(states, psyOne);
+        ArrayList<State> markingTwo = marking(states, psyTwo);
+
+        ArrayList<State> result = new ArrayList<>();
+        ArrayList<State> pool = markingTwo;
+
+        Hashtable<String, Integer> dictDegrees = new Hashtable<String, Integer>();
+        for (State state: states) { dictDegrees.put(state.getName(), state.transitions.size()); }
+
+        while(pool.size()!=0){
+            State q = pool.get(0);
+            result.add(pool.get(0));
+            pool.remove(0);
+
+            ArrayList<State> antecedents = getAntecedents(states, q);
+
+            for (State state: antecedents) {
+                dictDegrees.put(state.getName(), dictDegrees.get(state.getName()) - 1);
+                if(dictDegrees.get(state.name) == 0 && markingOne.contains(state) && !result.contains(state)) pool.add(state);
+            }
+        }
+        return result;
+    }
+
+
+
+
+
+    private static ArrayList<State> getAntecedents(ArrayList<State> states, State q) {
+
+        ArrayList<State> antecedents = new ArrayList<>();
+        for (State state: states) { if (state.transitions.contains(q.name)) antecedents.add(state); }
+
+        return antecedents;
+    }
 
 }
