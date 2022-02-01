@@ -1,107 +1,165 @@
 package com.company;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.stream.Collectors;
+import java.util.List;
 
-public abstract class Formula {
-    // Case one: φ=p
-    public static ArrayList<State> marking(ArrayList<State> states, String value) {
-        ArrayList<State> atomicsStates = new ArrayList<>();
+public class Formula {
+    private String quantState;
+    private String quantTrans;
+    private ArrayList<State> globalResult;
+    private Function func = new Function();
 
-        for (State state: states) {
-            if (state.values.contains(value)) atomicsStates.add(state);
-        }
 
-        return atomicsStates;
+    /// GETTER AND SETTER ///
+    public String getQuantState() { return quantState; }
+    public void setQuantState(String quantState) { this.quantState = quantState; }
+
+    public String getQuantTrans() { return quantTrans; }
+    public void setQuantTrans(String quantTrans) { this.quantTrans = quantTrans; }
+
+    public ArrayList<State> getGlobalResult() { return globalResult; }
+    public void setGlobalResult(ArrayList<State> globalResult) { this.globalResult = globalResult; }
+
+    public Function getFunc() { return func; }
+    public void setFunc(Function func) { this.func = func; }
+    /// GETTER AND SETTER ///
+
+
+    /// CONSTRUCTOR
+    public Formula(String formula, ArrayList<State> states)
+    {
+        getFunc().setStates(states);
+
+        System.out.println("Initial Formula : " + formula);
+        System.out.println("Splited Formula : " + convertStringToCharList(formula) );
+//        System.out.println("Sub Formulas : " + subFormulaChecker1(formula));
+        subFormulaChecker2(formula);
+
+        System.out.println("Results : \n" +
+                "Case: " + getFunc().getCaseFunc() + '\n' +
+                "States: " + getFunc().getResult());
+
+    }
+    /// CONSTRUCTOR
+
+
+    /// UTILS FUNCTIONS ///
+
+    private AbstractList<Character> convertStringToCharList(String str) {
+        return new AbstractList<Character>() {
+
+            @Override
+            public Character get(int index) {
+                return str.charAt(index);
+            }
+
+            @Override
+            public int size() {
+                return str.length();
+            }
+        };
     }
 
-    public static ArrayList<State> not(ArrayList<State> states, String value) {
-        states.removeAll(marking(states, value));
-        return states;
-    }
+    /// UTILS FUNCTIONS ///
 
-    public static ArrayList<State> intersect(ArrayList<State> states, String valuesOne, String valuesTwo) {
-        ArrayList<State> output = marking(states, valuesOne);
-        output.retainAll(marking(states, valuesTwo));
-        return output;
-    }
 
-    public static ArrayList<State> nextTime(ArrayList<State> states, String value) {
-        ArrayList<State> marking = marking(states, value);
-        ArrayList<State> output = new ArrayList<>();
+    /// FUNCTIONS ///
 
-        for (State state: states) {
-            if (state.transitions.stream().anyMatch(marking.stream().map(State::getName).collect(Collectors.toList())::contains)) {
-                output.add(state);
+    private ArrayList<String> subFormulaChecker1(String formula) {
+        AbstractList<Character> listFormula = convertStringToCharList(formula);
+
+        ArrayList<String> finalList = new ArrayList<String>();
+        ArrayList<String> tempoList = new ArrayList<String>();
+        tempoList.add(String.valueOf(listFormula.get(0)));
+
+        for (int i = 1; i < listFormula.size(); i++) {
+            String curr = String.valueOf(listFormula.get(i));
+
+            for (int size = 0; size < tempoList.size(); size++) {
+                tempoList.set(size, String.valueOf(tempoList.get(size) + curr));
+            }
+
+            if (curr.equals("(")) {
+                tempoList.add(curr);
+            } else if (curr.equals(")")) {
+                finalList.add(tempoList.get(tempoList.size() - 1));
+                tempoList.remove(tempoList.size() - 1);
             }
         }
 
-        return output;
+        for (int end = tempoList.size() - 1; end >= 0; end--) {
+            finalList.add(tempoList.get(tempoList.size() - 1));
+        }
+
+        return finalList;
     }
 
-    public static ArrayList<State> untilE(ArrayList<State> states, String psyOne, String psyTwo) {
-        ArrayList<State> markingTwo = marking(states, psyTwo);
+    private void subFormulaChecker2(String formula) {
+        AbstractList<Character> listFormula = convertStringToCharList(formula);
 
-        ArrayList<State> seenBefore = new ArrayList<>();
-        ArrayList<State> result = new ArrayList<>();
-        ArrayList<State> pool = markingTwo;
+//        ArrayList<String> finalList = new ArrayList<String>();
+//        ArrayList<String> tempoList = new ArrayList<String>();
+//        tempoList.add(String.valueOf(listFormula.get(0)));
 
-        while(pool.size()!=0){
-            State q = pool.get(0);
-            result.add(pool.get(0));
-            pool.remove(0);
+        String firstChar = String.valueOf(listFormula.get(0));
 
-            ArrayList<State> antecedents = getAntecedents(states, q);
+        if (firstChar.equals("¬"))
+        {
+            setQuantState(String.valueOf(listFormula.get(1)));
+            setQuantTrans(String.valueOf(listFormula.get(2)));
 
-            for (State state: antecedents) {
-                if(seenBefore.contains(state)) break;
+            getFunc().setCaseFunc("not");
 
-                seenBefore.add(state);
-                if (state.values.contains(psyOne) && !result.contains(state)){
-                    pool.add(state);
+            getFunc().setPhi1(String.valueOf(listFormula.get(4)));
+        }
+        else
+        {
+            setQuantState(String.valueOf(listFormula.get(0)));
+            setQuantTrans(String.valueOf(listFormula.get(1)));
+
+            ArrayList<String> subFormula = new ArrayList<>();
+            for (int i = 3; i < listFormula.size() - 1; i++)
+            {
+                subFormula.add(String.valueOf(listFormula.get(i)));
+            }
+
+            if(subFormula.contains("m"))
+            {
+                int index = subFormula.indexOf("m");
+                if(subFormula.get(index+1).equals("a") && subFormula.get(index+2).equals("r") && subFormula.get(index+3).equals("k"))
+                {
+                    getFunc().setCaseFunc("marking");
+                    getFunc().setPhi1(String.valueOf(listFormula.get(6)));
                 }
             }
-        }
-        return result;
-    }
+            else if(subFormula.contains("^"))
+            {
+                getFunc().setCaseFunc("intersect");
+                getFunc().setPhi1(String.valueOf(listFormula.get(3)));
+                getFunc().setPhi2(String.valueOf(listFormula.get(5)));
+            }
+            else if(subFormula.contains("X"))
+            {
+                getFunc().setCaseFunc("nextTime");
+                getFunc().setPhi1(String.valueOf(listFormula.get(5)));
 
-    public static ArrayList<State> untilA(ArrayList<State> states, String psyOne, String psyTwo) {
-        ArrayList<State> markingOne = marking(states, psyOne);
-        ArrayList<State> markingTwo = marking(states, psyTwo);
+            }
+            else if(subFormula.contains("U"))
+            {
+                if(subFormula.contains("E")) { getFunc().setCaseFunc("untilE"); }
+                else { getFunc().setCaseFunc("untilA"); }
 
-        ArrayList<State> result = new ArrayList<>();
-        ArrayList<State> pool = markingTwo;
-
-        Hashtable<String, Integer> dictDegrees = new Hashtable<String, Integer>();
-        for (State state: states) { dictDegrees.put(state.getName(), state.transitions.size()); }
-
-        while(pool.size()!=0){
-            State q = pool.get(0);
-            result.add(pool.get(0));
-            pool.remove(0);
-
-            ArrayList<State> antecedents = getAntecedents(states, q);
-
-            for (State state: antecedents) {
-                dictDegrees.put(state.getName(), dictDegrees.get(state.getName()) - 1);
-                if(dictDegrees.get(state.name) == 0 && markingOne.contains(state) && !result.contains(state)) pool.add(state);
+                getFunc().setPhi1(String.valueOf(listFormula.get(4)));
+                getFunc().setPhi2(String.valueOf(listFormula.get(6)));
+            }
+            else
+            {
+                getFunc().setCaseFunc("Nada de nada !");
+                getFunc().setPhi1(String.valueOf(listFormula.get(3)));
             }
         }
-        return result;
+
+        getFunc().caseMaker();
     }
-
-
-
-
-
-    private static ArrayList<State> getAntecedents(ArrayList<State> states, State q) {
-
-        ArrayList<State> antecedents = new ArrayList<>();
-        for (State state: states) { if (state.transitions.contains(q.name)) antecedents.add(state); }
-
-        return antecedents;
-    }
-
 }

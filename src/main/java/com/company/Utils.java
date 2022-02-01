@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public abstract class Utils {
-    public static final String PATHFILE = "src/main/java/com/company/files/schema1.json";
+    public static final String PATHFILE = "src/main/java/com/company/files/schematest.json";
 
     public static Object readFromFile(String path) {
         JSONParser parser = new JSONParser();

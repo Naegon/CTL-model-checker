@@ -18,12 +18,12 @@
     },
     {
       "name": "S3",
-      "values": [ "b" ],
+      "values": [ "a" ],
       "transitions": [ "S4" ]
     },
     {
       "name": "S4",
-      "values": [ "a" ],
+      "values": [ "b" ],
       "transitions": [ "S1" ]
     }]
 }
