@@ -25,8 +25,12 @@ public class FormulaParserTest {
         // Given
         String formula = "VF(a)";
 
-        // Then
+        // When
         Formula myFormula = new Formula(formula, structure.states);
+
+        // Then
+
+        // Then
         Formula expectedFormula = new Formula("V", "F", "a", null, "Nada de nada !",
                 new ArrayList<>(
                         List.of(
@@ -41,6 +45,157 @@ public class FormulaParserTest {
                                 new State("S3",
                                         new ArrayList<>(List.of("a")),
                                         new ArrayList<>(List.of("S4"))
+                                )
+                        )
+                )
+        );
+
+        assertEquals(expectedFormula.toString(), myFormula.toString());
+    }
+
+    @Test
+    public void test_formula3() {
+        // Given
+        String formula = "¬VF(a)";
+
+        // When
+        Formula myFormula = new Formula(formula, structure.states);
+
+        // Then
+        Formula expectedFormula = new Formula("V", "F", "a", null, "not",
+                new ArrayList<>(
+                        List.of(
+                                new State("S0",
+                                        new ArrayList<>(List.of("c")),
+                                        new ArrayList<>(List.of("S1"))
+                                ),
+                                new State("S4",
+                                        new ArrayList<>(List.of("b")),
+                                        new ArrayList<>(List.of("S1"))
+                                )
+                        )
+                )
+        );
+
+        assertEquals(expectedFormula.toString(), myFormula.toString());
+    }
+
+    @Test
+    public void test_formula4() {
+        // Given
+        String formula = "VF(a^b)";
+
+        // When
+        Formula myFormula = new Formula(formula, structure.states);
+
+        // Then
+        Formula expectedFormula = new Formula("V", "F", "a", "b", "intersect",
+                new ArrayList<>(
+                        List.of(
+                                new State("S2",
+                                        new ArrayList<>(Arrays.asList("a", "b")),
+                                        new ArrayList<>(List.of("S4"))
+                                )
+                        )
+                )
+        );
+
+        assertEquals(expectedFormula.toString(), myFormula.toString());
+    }
+
+    @Test
+    public void test_formula5() {
+        // Given
+        String formula = "VF(EXa)";
+
+        // When
+        Formula myFormula = new Formula(formula, structure.states);
+
+        // Then
+        Formula expectedFormula = new Formula("V", "F", "a", null, "nextTime",
+                new ArrayList<>(
+                        List.of(
+                                new State("S0",
+                                        new ArrayList<>(List.of("c")),
+                                        new ArrayList<>(List.of("S1"))
+                                ),
+                                new State("S1",
+                                        new ArrayList<>(Arrays.asList("a", "c")),
+                                        new ArrayList<>(Arrays.asList("S2", "S3"))
+                                ),
+                                new State("S4",
+                                        new ArrayList<>(List.of("b")),
+                                        new ArrayList<>(List.of("S1"))
+                                )
+                        )
+                )
+        );
+
+        assertEquals(expectedFormula.toString(), myFormula.toString());
+    }
+
+    @Test
+    public void test_formula6() {
+        // Given
+        String formula = "VF(EaUb)";
+
+        // When
+        Formula myFormula = new Formula(formula, structure.states);
+
+        // Then
+        Formula expectedFormula = new Formula("V", "F", "a", "b", "untilE",
+                new ArrayList<>(
+                        List.of(
+                                new State("S2",
+                                        new ArrayList<>(Arrays.asList("a", "b")),
+                                        new ArrayList<>(List.of("S4"))
+                                ),
+                                new State("S4",
+                                        new ArrayList<>(List.of("b")),
+                                        new ArrayList<>(List.of("S1"))
+                                ),
+                                new State("S1",
+                                        new ArrayList<>(Arrays.asList("a", "c")),
+                                        new ArrayList<>(Arrays.asList("S2","S3"))
+                                ),
+                                new State("S3",
+                                        new ArrayList<>(List.of("a")),
+                                        new ArrayList<>(List.of("S4"))
+                                )
+                        )
+                )
+        );
+
+        assertEquals(expectedFormula.toString(), myFormula.toString());
+    }
+
+    @Test
+    public void test_formula7() {
+        // Given
+        String formula = "VF(AaUb)";
+
+        // When
+        Formula myFormula = new Formula(formula, structure.states);
+
+        // Then
+        Formula expectedFormula = new Formula("V", "F", "a", "b", "untilA",
+                new ArrayList<>(
+                        List.of(
+                                new State("S2",
+                                        new ArrayList<>(Arrays.asList("a", "b")),
+                                        new ArrayList<>(List.of("S4"))
+                                ),
+                                new State("S4",
+                                        new ArrayList<>(List.of("b")),
+                                        new ArrayList<>(List.of("S1"))
+                                ),
+                                new State("S3",
+                                        new ArrayList<>(List.of("a")),
+                                        new ArrayList<>(List.of("S4"))
+                                ),
+                                new State("S1",
+                                        new ArrayList<>(Arrays.asList("a", "c")),
+                                        new ArrayList<>(Arrays.asList("S2", "S3"))
                                 )
                         )
                 )
