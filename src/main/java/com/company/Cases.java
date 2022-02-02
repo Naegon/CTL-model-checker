@@ -1,7 +1,6 @@
 package com.company;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.stream.Collectors;
 
@@ -18,23 +17,26 @@ public abstract class Cases {
         return atomicsStates;
     }
 
+    // Case two: φ = ¬ψ
     public static ArrayList<State> not(ArrayList<State> states, String value) {
         states.removeAll(marking(states, value));
         return states;
     }
 
+    // Case three:  φ = ψ1 ∧ ψ2
     public static ArrayList<State> intersect(ArrayList<State> states, String valuesOne, String valuesTwo) {
         ArrayList<State> output = marking(states, valuesOne);
         output.retainAll(marking(states, valuesTwo));
         return output;
     }
 
+    // Case four: φ = EXψ
     public static ArrayList<State> nextTime(ArrayList<State> states, String value) {
         ArrayList<State> marking = marking(states, value);
         ArrayList<State> output = new ArrayList<>();
 
         for (State state: states) {
-            if (state.transitions.stream().anyMatch(marking.stream().map(State::getName).collect(Collectors.toList())::contains)) {
+            if (state.transitions.stream().anyMatch(marking.stream().map(State::getName).toList()::contains)) {
                 output.add(state);
             }
         }
@@ -42,6 +44,7 @@ public abstract class Cases {
         return output;
     }
 
+    // Case five: φ = Eψ1 U ψ2
     public static ArrayList<State> untilE(ArrayList<State> states, String psyOne, String psyTwo) {
         ArrayList<State> markingTwo = marking(states, psyTwo);
 
@@ -68,6 +71,7 @@ public abstract class Cases {
         return result;
     }
 
+    // Case 6: φ = Aψ1 U ψ2
     public static ArrayList<State> untilA(ArrayList<State> states, String psyOne, String psyTwo) {
         ArrayList<State> markingOne = marking(states, psyOne);
         ArrayList<State> markingTwo = marking(states, psyTwo);
@@ -75,7 +79,7 @@ public abstract class Cases {
         ArrayList<State> result = new ArrayList<>();
         ArrayList<State> pool = markingTwo;
 
-        Hashtable<String, Integer> dictDegrees = new Hashtable<String, Integer>();
+        Hashtable<String, Integer> dictDegrees = new Hashtable<>();
         for (State state: states) { dictDegrees.put(state.getName(), state.transitions.size()); }
 
         while(pool.size()!=0){
@@ -93,17 +97,11 @@ public abstract class Cases {
         return result;
     }
 
-
-
-
-
     private static ArrayList<State> getAntecedents(ArrayList<State> states, State q) {
-
         ArrayList<State> antecedents = new ArrayList<>();
         for (State state: states) { if (state.transitions.contains(q.name)) antecedents.add(state); }
 
         return antecedents;
     }
-
 
 }

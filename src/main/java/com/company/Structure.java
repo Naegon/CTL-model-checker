@@ -29,8 +29,7 @@ public class Structure {
 
     private boolean initialStateExist() {
         return states.stream()
-                .map(State::getName)
-                .collect(Collectors.toList())
+                .map(State::getName).toList()
                 .containsAll(initialStates);
     }
 
