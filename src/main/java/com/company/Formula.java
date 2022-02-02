@@ -19,7 +19,6 @@ public class Formula {
     /// CONSTRUCTOR
     public Formula(ArrayList<State> states) {
         func = new Function(states);
-        func.setStates(states);
     }
 
     public Formula(String quantState, String quantTrans, Function func) {
