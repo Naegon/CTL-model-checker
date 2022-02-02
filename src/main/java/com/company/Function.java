@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Function
 {
@@ -10,6 +11,7 @@ public class Function
     private ArrayList<State> result;
     private ArrayList<State> states;
 
+    // TODO: one function to set (caseFunc, Phi1, Phi2?)
     public String getPhi1() { return phi1; }
     public void setPhi1(String phi1) { this.phi1 = phi1; }
 
@@ -25,8 +27,8 @@ public class Function
     public ArrayList<State> getStates() { return states; }
     public void setStates(ArrayList<State> states) { this.states = states; }
 
-    public void caseMaker()
-    {
+    // TODO: const strings
+    public void caseMaker() {
         switch (getCaseFunc()) {
             case "not" -> setResult(Cases.not(getStates(), getPhi1()));
             case "marking" -> setResult(Cases.marking(getStates(), getPhi1()));

@@ -1,8 +1,6 @@
 package com.company;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Formula {
     private String quantState;
@@ -27,140 +25,87 @@ public class Formula {
 
 
     /// CONSTRUCTOR
-    public Formula(String formula, ArrayList<State> states)
-    {
-        getFunc().setStates(states);
+    public Formula(String formula, ArrayList<State> states) {
+        func.setStates(states);
 
-        System.out.println("Initial Formula : " + formula);
-        System.out.println("Splited Formula : " + convertStringToCharList(formula) );
-//        System.out.println("Sub Formulas : " + subFormulaChecker1(formula));
+        System.out.println("Initial Formula: " + formula);
+//        System.out.println("Sub Formulas: " + subFormulaChecker1(formula));
         subFormulaChecker2(formula);
 
         System.out.println("Results : \n" +
-                "Case: " + getFunc().getCaseFunc() + '\n' +
-                "States: " + getFunc().getResult());
+                "Case: " + func.getCaseFunc() + '\n' +
+                "States: " + func.getResult());
+    }
 
+    public Formula(String quantState, String quantTrans, String phi1, String phi2, String caseFunc, ArrayList<State> result) {
+        this.quantState = quantState;
+        this.quantTrans = quantTrans;
+
+        func.setPhi1(phi1);
+        func.setPhi2(phi2);
+        func.setCaseFunc(caseFunc);
+        func.setResult(result);
     }
     /// CONSTRUCTOR
 
-
-    /// UTILS FUNCTIONS ///
-
-    private AbstractList<Character> convertStringToCharList(String str) {
-        return new AbstractList<Character>() {
-
-            @Override
-            public Character get(int index) {
-                return str.charAt(index);
-            }
-
-            @Override
-            public int size() {
-                return str.length();
-            }
-        };
-    }
-
-    /// UTILS FUNCTIONS ///
-
-
-    /// FUNCTIONS ///
-
-    private ArrayList<String> subFormulaChecker1(String formula) {
-        AbstractList<Character> listFormula = convertStringToCharList(formula);
-
-        ArrayList<String> finalList = new ArrayList<String>();
-        ArrayList<String> tempoList = new ArrayList<String>();
-        tempoList.add(String.valueOf(listFormula.get(0)));
-
-        for (int i = 1; i < listFormula.size(); i++) {
-            String curr = String.valueOf(listFormula.get(i));
-
-            for (int size = 0; size < tempoList.size(); size++) {
-                tempoList.set(size, String.valueOf(tempoList.get(size) + curr));
-            }
-
-            if (curr.equals("(")) {
-                tempoList.add(curr);
-            } else if (curr.equals(")")) {
-                finalList.add(tempoList.get(tempoList.size() - 1));
-                tempoList.remove(tempoList.size() - 1);
-            }
-        }
-
-        for (int end = tempoList.size() - 1; end >= 0; end--) {
-            finalList.add(tempoList.get(tempoList.size() - 1));
-        }
-
-        return finalList;
-    }
-
     private void subFormulaChecker2(String formula) {
-        AbstractList<Character> listFormula = convertStringToCharList(formula);
+        String firstChar = String.valueOf(formula.charAt(0));
 
-//        ArrayList<String> finalList = new ArrayList<String>();
-//        ArrayList<String> tempoList = new ArrayList<String>();
-//        tempoList.add(String.valueOf(listFormula.get(0)));
+        // TODO: appel recursif (négation du résultat de l'appel sur une subformula)
+        if (firstChar.equals("¬")) {
+            setQuantState(String.valueOf(formula.charAt(1)));
+            setQuantTrans(String.valueOf(formula.charAt(2)));
 
-        String firstChar = String.valueOf(listFormula.get(0));
+            func.setCaseFunc("not");
+            func.setPhi1(String.valueOf(formula.charAt(4)));
 
-        if (firstChar.equals("¬"))
-        {
-            setQuantState(String.valueOf(listFormula.get(1)));
-            setQuantTrans(String.valueOf(listFormula.get(2)));
-
-            getFunc().setCaseFunc("not");
-
-            getFunc().setPhi1(String.valueOf(listFormula.get(4)));
+            func.caseMaker();
+            return;
         }
-        else
-        {
-            setQuantState(String.valueOf(listFormula.get(0)));
-            setQuantTrans(String.valueOf(listFormula.get(1)));
 
-            ArrayList<String> subFormula = new ArrayList<>();
-            for (int i = 3; i < listFormula.size() - 1; i++)
-            {
-                subFormula.add(String.valueOf(listFormula.get(i)));
-            }
+        setQuantState(String.valueOf(formula.charAt(0)));
+        setQuantTrans(String.valueOf(formula.charAt(1)));
 
-            if(subFormula.contains("m"))
-            {
-                int index = subFormula.indexOf("m");
-                if(subFormula.get(index+1).equals("a") && subFormula.get(index+2).equals("r") && subFormula.get(index+3).equals("k"))
-                {
-                    getFunc().setCaseFunc("marking");
-                    getFunc().setPhi1(String.valueOf(listFormula.get(6)));
-                }
-            }
-            else if(subFormula.contains("^"))
-            {
-                getFunc().setCaseFunc("intersect");
-                getFunc().setPhi1(String.valueOf(listFormula.get(3)));
-                getFunc().setPhi2(String.valueOf(listFormula.get(5)));
-            }
-            else if(subFormula.contains("X"))
-            {
-                getFunc().setCaseFunc("nextTime");
-                getFunc().setPhi1(String.valueOf(listFormula.get(5)));
+        ArrayList<String> subFormula = new ArrayList<>();
+        for (int i = 3; i < formula.length() - 1; i++) {
+            subFormula.add(String.valueOf(formula.charAt(i)));
+        }
 
-            }
-            else if(subFormula.contains("U"))
-            {
-                if(subFormula.contains("E")) { getFunc().setCaseFunc("untilE"); }
-                else { getFunc().setCaseFunc("untilA"); }
-
-                getFunc().setPhi1(String.valueOf(listFormula.get(4)));
-                getFunc().setPhi2(String.valueOf(listFormula.get(6)));
-            }
-            else
-            {
-                getFunc().setCaseFunc("Nada de nada !");
-                getFunc().setPhi1(String.valueOf(listFormula.get(3)));
+        if (subFormula.contains("m")) {
+            int index = subFormula.indexOf("m");
+            if (subFormula.get(index+1).equals("a") && subFormula.get(index+2).equals("r") && subFormula.get(index+3).equals("k")) {
+                func.setCaseFunc("marking");
+                func.setPhi1(String.valueOf(formula.charAt(6)));
             }
         }
 
-        getFunc().caseMaker();
+        else if (subFormula.contains("^")) {
+            func.setCaseFunc("intersect");
+            func.setPhi1(String.valueOf(formula.charAt(3)));
+            func.setPhi2(String.valueOf(formula.charAt(5)));
+        }
+
+        else if (subFormula.contains("X")) {
+            func.setCaseFunc("nextTime");
+            func.setPhi1(String.valueOf(formula.charAt(5)));
+        }
+
+        else if (subFormula.contains("U")) {
+            if (subFormula.contains("E")) { func.setCaseFunc("untilE"); }
+            else { func.setCaseFunc("untilA"); }
+
+            func.setPhi1(String.valueOf(formula.charAt(4)));
+            func.setPhi2(String.valueOf(formula.charAt(6)));
+        }
+
+        else {
+            func.setCaseFunc("Nada de nada !");
+            func.setPhi1(String.valueOf(formula.charAt(3)));
+        }
+
+        func.caseMaker();
+    }
+
     @Override
     public String toString() {
         return "Formula{" +

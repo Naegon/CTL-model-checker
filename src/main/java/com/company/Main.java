@@ -1,7 +1,5 @@
 package com.company;
 
-import java.util.ArrayList;
-
 import static com.company.Utils.*;
 
 public class Main {
@@ -19,7 +17,7 @@ public class Main {
             String formula5 = "VF(EXa)";
             String formula6 = "VF(EaUb)";
             String formula7 = "VF(AaUb)";
-            FormulaParser fparser = new FormulaParser(formula7, structure.states);
+            FormulaParser fparser = new FormulaParser(formula3, structure.states);
         }
         catch (IllegalArgumentException e) {
             e.printStackTrace();
