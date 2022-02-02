@@ -24,7 +24,7 @@ public class FormulaParserTest {
 
         // When
         Formula myFormula = new Formula(structure.states);
-        myFormula.subFormulaChecker2(formula);
+        myFormula.subFormulaChecker(formula);
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
@@ -58,7 +58,7 @@ public class FormulaParserTest {
 
         // When
         Formula myFormula = new Formula(structure.states);
-        myFormula.subFormulaChecker2(formula);
+        myFormula.subFormulaChecker(formula);
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
@@ -88,7 +88,7 @@ public class FormulaParserTest {
 
         // When
         Formula myFormula = new Formula(structure.states);
-        myFormula.subFormulaChecker2(formula);
+        myFormula.subFormulaChecker(formula);
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
@@ -114,7 +114,7 @@ public class FormulaParserTest {
 
         // When
         Formula myFormula = new Formula(structure.states);
-        myFormula.subFormulaChecker2(formula);
+        myFormula.subFormulaChecker(formula);
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
@@ -148,7 +148,7 @@ public class FormulaParserTest {
 
         // When
         Formula myFormula = new Formula(structure.states);
-        myFormula.subFormulaChecker2(formula);
+        myFormula.subFormulaChecker(formula);
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
@@ -186,7 +186,7 @@ public class FormulaParserTest {
 
         // When
         Formula myFormula = new Formula(structure.states);
-        myFormula.subFormulaChecker2(formula);
+        myFormula.subFormulaChecker(formula);
 
         // Then
         Formula expectedFormula = new Formula("V", "F",

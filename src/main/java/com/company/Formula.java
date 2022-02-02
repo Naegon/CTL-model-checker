@@ -1,7 +1,5 @@
 package com.company;
 
-import com.company.Cases.CasesName;
-
 import java.util.ArrayList;
 
 import static com.company.Cases.CasesName.*;
@@ -28,7 +26,7 @@ public class Formula {
     }
     /// CONSTRUCTOR
 
-    public void subFormulaChecker2(String formula) {
+    public void subFormulaChecker(String formula) {
         String firstChar = String.valueOf(formula.charAt(0));
 
         // TODO: appel recursif (négation du résultat de l'appel sur une subformula)
