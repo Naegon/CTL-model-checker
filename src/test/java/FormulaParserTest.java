@@ -31,24 +31,24 @@ public class FormulaParserTest {
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
-                new Function("a", null, "Nada de nada !",
-                    new ArrayList<>(
-                            List.of(
-                                    new State("S1",
-                                            new ArrayList<>(Arrays.asList("a", "c")),
-                                            new ArrayList<>(Arrays.asList("S2", "S3"))
-                                    ),
-                                    new State("S2",
-                                            new ArrayList<>(Arrays.asList("a", "b")),
-                                            new ArrayList<>(List.of("S4"))
-                                    ),
-                                    new State("S3",
-                                            new ArrayList<>(List.of("a")),
-                                            new ArrayList<>(List.of("S4"))
-                                    )
-                            )
+            new Function("a", null, "Nada de nada !",
+                new ArrayList<>(
+                    List.of(
+                        new State("S1",
+                            new ArrayList<>(Arrays.asList("a", "c")),
+                            new ArrayList<>(Arrays.asList("S2", "S3"))
+                        ),
+                        new State("S2",
+                            new ArrayList<>(Arrays.asList("a", "b")),
+                            new ArrayList<>(List.of("S4"))
+                        ),
+                        new State("S3",
+                            new ArrayList<>(List.of("a")),
+                            new ArrayList<>(List.of("S4"))
+                        )
                     )
                 )
+            )
         );
 
         assertEquals(expectedFormula.toString(), myFormula.toString());
@@ -64,20 +64,20 @@ public class FormulaParserTest {
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
-                new Function("a", null, "not",
-                    new ArrayList<>(
-                            List.of(
-                                    new State("S0",
-                                            new ArrayList<>(List.of("c")),
-                                            new ArrayList<>(List.of("S1"))
-                                    ),
-                                    new State("S4",
-                                            new ArrayList<>(List.of("b")),
-                                            new ArrayList<>(List.of("S1"))
-                                    )
-                            )
+            new Function("a", null, "not",
+                new ArrayList<>(
+                    List.of(
+                        new State("S0",
+                            new ArrayList<>(List.of("c")),
+                            new ArrayList<>(List.of("S1"))
+                        ),
+                        new State("S4",
+                            new ArrayList<>(List.of("b")),
+                            new ArrayList<>(List.of("S1"))
+                        )
                     )
                 )
+            )
         );
 
         assertEquals(expectedFormula.toString(), myFormula.toString());
@@ -93,16 +93,16 @@ public class FormulaParserTest {
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
-                new Function("a", "b", "intersect",
-                    new ArrayList<>(
-                            List.of(
-                                    new State("S2",
-                                            new ArrayList<>(Arrays.asList("a", "b")),
-                                            new ArrayList<>(List.of("S4"))
-                                    )
-                            )
+            new Function("a", "b", "intersect",
+                new ArrayList<>(
+                    List.of(
+                        new State("S2",
+                            new ArrayList<>(Arrays.asList("a", "b")),
+                            new ArrayList<>(List.of("S4"))
+                        )
                     )
                 )
+            )
         );
 
         assertEquals(expectedFormula.toString(), myFormula.toString());
@@ -118,24 +118,24 @@ public class FormulaParserTest {
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
-                new Function("a", null, "nextTime",
-                    new ArrayList<>(
-                            List.of(
-                                    new State("S0",
-                                            new ArrayList<>(List.of("c")),
-                                            new ArrayList<>(List.of("S1"))
-                                    ),
-                                    new State("S1",
-                                            new ArrayList<>(Arrays.asList("a", "c")),
-                                            new ArrayList<>(Arrays.asList("S2", "S3"))
-                                    ),
-                                    new State("S4",
-                                            new ArrayList<>(List.of("b")),
-                                            new ArrayList<>(List.of("S1"))
-                                    )
-                            )
+            new Function("a", null, "nextTime",
+                new ArrayList<>(
+                    List.of(
+                        new State("S0",
+                            new ArrayList<>(List.of("c")),
+                            new ArrayList<>(List.of("S1"))
+                        ),
+                        new State("S1",
+                            new ArrayList<>(Arrays.asList("a", "c")),
+                            new ArrayList<>(Arrays.asList("S2", "S3"))
+                        ),
+                        new State("S4",
+                            new ArrayList<>(List.of("b")),
+                            new ArrayList<>(List.of("S1"))
+                        )
                     )
                 )
+            )
         );
 
         assertEquals(expectedFormula.toString(), myFormula.toString());
@@ -151,28 +151,28 @@ public class FormulaParserTest {
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
-                new Function("a", "b", "untilE",
-                    new ArrayList<>(
-                            List.of(
-                                    new State("S2",
-                                            new ArrayList<>(Arrays.asList("a", "b")),
-                                            new ArrayList<>(List.of("S4"))
-                                    ),
-                                    new State("S4",
-                                            new ArrayList<>(List.of("b")),
-                                            new ArrayList<>(List.of("S1"))
-                                    ),
-                                    new State("S1",
-                                            new ArrayList<>(Arrays.asList("a", "c")),
-                                            new ArrayList<>(Arrays.asList("S2","S3"))
-                                    ),
-                                    new State("S3",
-                                            new ArrayList<>(List.of("a")),
-                                            new ArrayList<>(List.of("S4"))
-                                    )
-                            )
+            new Function("a", "b", "untilE",
+                new ArrayList<>(
+                    List.of(
+                        new State("S2",
+                            new ArrayList<>(Arrays.asList("a", "b")),
+                            new ArrayList<>(List.of("S4"))
+                        ),
+                        new State("S4",
+                            new ArrayList<>(List.of("b")),
+                            new ArrayList<>(List.of("S1"))
+                        ),
+                        new State("S1",
+                            new ArrayList<>(Arrays.asList("a", "c")),
+                            new ArrayList<>(Arrays.asList("S2","S3"))
+                        ),
+                        new State("S3",
+                            new ArrayList<>(List.of("a")),
+                            new ArrayList<>(List.of("S4"))
+                        )
                     )
                 )
+            )
         );
 
         assertEquals(expectedFormula.toString(), myFormula.toString());
@@ -188,28 +188,28 @@ public class FormulaParserTest {
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
-                new Function("a", "b", "untilA",
-                    new ArrayList<>(
-                            List.of(
-                                    new State("S2",
-                                            new ArrayList<>(Arrays.asList("a", "b")),
-                                            new ArrayList<>(List.of("S4"))
-                                    ),
-                                    new State("S4",
-                                            new ArrayList<>(List.of("b")),
-                                            new ArrayList<>(List.of("S1"))
-                                    ),
-                                    new State("S3",
-                                            new ArrayList<>(List.of("a")),
-                                            new ArrayList<>(List.of("S4"))
-                                    ),
-                                    new State("S1",
-                                            new ArrayList<>(Arrays.asList("a", "c")),
-                                            new ArrayList<>(Arrays.asList("S2", "S3"))
-                                    )
-                            )
+            new Function("a", "b", "untilA",
+                new ArrayList<>(
+                    List.of(
+                        new State("S2",
+                            new ArrayList<>(Arrays.asList("a", "b")),
+                            new ArrayList<>(List.of("S4"))
+                        ),
+                        new State("S4",
+                            new ArrayList<>(List.of("b")),
+                            new ArrayList<>(List.of("S1"))
+                        ),
+                        new State("S3",
+                            new ArrayList<>(List.of("a")),
+                            new ArrayList<>(List.of("S4"))
+                        ),
+                        new State("S1",
+                            new ArrayList<>(Arrays.asList("a", "c")),
+                            new ArrayList<>(Arrays.asList("S2", "S3"))
+                        )
                     )
                 )
+            )
         );
 
         assertEquals(expectedFormula.toString(), myFormula.toString());
