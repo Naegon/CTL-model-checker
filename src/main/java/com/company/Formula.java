@@ -1,6 +1,10 @@
 package com.company;
 
+import com.company.Cases.CasesName;
+
 import java.util.ArrayList;
+
+import static com.company.Cases.CasesName.*;
 
 public class Formula {
     private String quantState;
@@ -33,7 +37,7 @@ public class Formula {
             setQuantState(String.valueOf(formula.charAt(1)));
             setQuantTrans(String.valueOf(formula.charAt(2)));
 
-            func.setCaseFunc("not");
+            func.setCaseFunc(NOT);
             func.setPhi1(String.valueOf(formula.charAt(4)));
 
             func.caseMaker();
@@ -49,31 +53,31 @@ public class Formula {
         }
 
         if (subFormula.contains("mark")) {
-            func.setCaseFunc("marking");
+            func.setCaseFunc(MARKING);
             func.setPhi1(String.valueOf(formula.charAt(6)));
         }
 
         else if (subFormula.contains("^")) {
-            func.setCaseFunc("intersect");
+            func.setCaseFunc(INTERSECT);
             func.setPhi1(String.valueOf(formula.charAt(3)));
             func.setPhi2(String.valueOf(formula.charAt(5)));
         }
 
         else if (subFormula.contains("X")) {
-            func.setCaseFunc("nextTime");
+            func.setCaseFunc(NEXT_TIME);
             func.setPhi1(String.valueOf(formula.charAt(5)));
         }
 
         else if (subFormula.contains("U")) {
-            if (subFormula.contains("E")) { func.setCaseFunc("untilE"); }
-            else { func.setCaseFunc("untilA"); }
+            if (subFormula.contains("E")) { func.setCaseFunc(UNTIL_E); }
+            else { func.setCaseFunc(UNTIL_A); }
 
             func.setPhi1(String.valueOf(formula.charAt(4)));
             func.setPhi2(String.valueOf(formula.charAt(6)));
         }
 
         else {
-            func.setCaseFunc("Nada de nada !");
+            func.setCaseFunc(DEFAULT);
             func.setPhi1(String.valueOf(formula.charAt(3)));
         }
 

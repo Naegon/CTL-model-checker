@@ -101,6 +101,6 @@ public abstract class Cases {
         return antecedents;
     }
 
-    
+    public enum CasesName { NOT, MARKING, INTERSECT, NEXT_TIME, UNTIL_E, UNTIL_A, DEFAULT }
 
 }

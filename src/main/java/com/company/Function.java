@@ -2,15 +2,17 @@ package com.company;
 
 import java.util.ArrayList;
 
+import static com.company.Cases.*;
+
 public class Function
 {
     private String phi1 = null;
     private String phi2 = null;
-    private String caseFunc;
+    private CasesName caseFunc;
     private ArrayList<State> result;
     private ArrayList<State> states;
 
-    public Function(String phi1, String phi2, String caseFunc, ArrayList<State> result) {
+    public Function(String phi1, String phi2, CasesName caseFunc, ArrayList<State> result) {
         this.phi1 = phi1;
         this.phi2 = phi2;
         this.caseFunc = caseFunc;
@@ -26,8 +28,8 @@ public class Function
     public String getPhi2() { return phi2; }
     public void setPhi2(String phi2) { this.phi2 = phi2; }
 
-    public String getCaseFunc() { return caseFunc; }
-    public void setCaseFunc(String caseFunc) { this.caseFunc = caseFunc; }
+    public CasesName getCaseFunc() { return caseFunc; }
+    public void setCaseFunc(CasesName caseFunc) { this.caseFunc = caseFunc; }
 
     public ArrayList<State> getResult() { return result; }
     public void setResult(ArrayList<State> result) { this.result = result; }
@@ -37,16 +39,16 @@ public class Function
 
     // TODO: const strings
     public void caseMaker() {
-        switch (getCaseFunc()) {
-            case "not" -> setResult(Cases.not(getStates(), getPhi1()));
-            case "marking" -> setResult(Cases.marking(getStates(), getPhi1()));
-            case "intersect" -> setResult(Cases.intersect(getStates(), getPhi1(), getPhi2()));
-            case "nextTime" -> setResult(Cases.nextTime(getStates(), getPhi1()));
-            case "untilE" -> setResult(Cases.untilE(getStates(), getPhi1(), getPhi2()));
-            case "untilA" -> setResult(Cases.untilA(getStates(), getPhi1(), getPhi2()));
-            default -> {
+        switch (caseFunc) {
+            case NOT -> setResult(not(getStates(), getPhi1()));
+            case MARKING -> setResult(marking(getStates(), getPhi1()));
+            case INTERSECT -> setResult(intersect(getStates(), getPhi1(), getPhi2()));
+            case NEXT_TIME -> setResult(nextTime(getStates(), getPhi1()));
+            case UNTIL_E -> setResult(untilE(getStates(), getPhi1(), getPhi2()));
+            case UNTIL_A -> setResult(untilA(getStates(), getPhi1(), getPhi2()));
+            case DEFAULT -> {
                 System.out.println("Attention mal ecrit !");
-                setResult(Cases.marking(getStates(), getPhi1()));
+                setResult(marking(getStates(), getPhi1()));
             }
         }
     }
