@@ -22,7 +22,8 @@ public class Main {
                 "VF(AaUb)"
             ));
 
-            new Formula(structure.states).subFormulaChecker(formulas.get(3));
+            Formula myFormula = new Formula(structure.states);
+            myFormula.subFormulaChecker(formulas.get(0));
         }
         catch (IllegalArgumentException e) {
             e.printStackTrace();

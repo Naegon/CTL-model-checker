@@ -80,7 +80,7 @@ public class Formula {
 
         func.caseMaker();
 
-        System.out.println("Results : \n" +
+        System.out.println("Results: \n" +
                 "Case: " + func.getCaseFunc() + '\n' +
                 "States: " + func.getResult());
     }

@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 import static com.company.Cases.*;
 
-public class Function
-{
+public class Function {
     private String phi1 = null;
     private String phi2 = null;
     private CasesName caseFunc;
@@ -62,4 +61,5 @@ public class Function
                 ", result=" + result +
                 '}';
     }
+
 }
