@@ -10,6 +10,15 @@ public class Function
     private ArrayList<State> result;
     private ArrayList<State> states;
 
+    public Function(String phi1, String phi2, String caseFunc, ArrayList<State> result) {
+        this.phi1 = phi1;
+        this.phi2 = phi2;
+        this.caseFunc = caseFunc;
+        this.result = result;
+    }
+
+    public Function(ArrayList<State> states) { this.states = states; }
+
     // TODO: one function to set (caseFunc, Phi1, Phi2?)
     public String getPhi1() { return phi1; }
     public void setPhi1(String phi1) { this.phi1 = phi1; }

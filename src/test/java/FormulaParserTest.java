@@ -1,4 +1,5 @@
 import com.company.Formula;
+import com.company.Function;
 import com.company.State;
 import com.company.Structure;
 import org.junit.Before;
@@ -29,24 +30,24 @@ public class FormulaParserTest {
         Formula myFormula = new Formula(formula, structure.states);
 
         // Then
-
-        // Then
-        Formula expectedFormula = new Formula("V", "F", "a", null, "Nada de nada !",
-                new ArrayList<>(
-                        List.of(
-                                new State("S1",
-                                        new ArrayList<>(Arrays.asList("a", "c")),
-                                        new ArrayList<>(Arrays.asList("S2", "S3"))
-                                ),
-                                new State("S2",
-                                        new ArrayList<>(Arrays.asList("a", "b")),
-                                        new ArrayList<>(List.of("S4"))
-                                ),
-                                new State("S3",
-                                        new ArrayList<>(List.of("a")),
-                                        new ArrayList<>(List.of("S4"))
-                                )
-                        )
+        Formula expectedFormula = new Formula("V", "F",
+                new Function("a", null, "Nada de nada !",
+                    new ArrayList<>(
+                            List.of(
+                                    new State("S1",
+                                            new ArrayList<>(Arrays.asList("a", "c")),
+                                            new ArrayList<>(Arrays.asList("S2", "S3"))
+                                    ),
+                                    new State("S2",
+                                            new ArrayList<>(Arrays.asList("a", "b")),
+                                            new ArrayList<>(List.of("S4"))
+                                    ),
+                                    new State("S3",
+                                            new ArrayList<>(List.of("a")),
+                                            new ArrayList<>(List.of("S4"))
+                                    )
+                            )
+                    )
                 )
         );
 
@@ -62,18 +63,20 @@ public class FormulaParserTest {
         Formula myFormula = new Formula(formula, structure.states);
 
         // Then
-        Formula expectedFormula = new Formula("V", "F", "a", null, "not",
-                new ArrayList<>(
-                        List.of(
-                                new State("S0",
-                                        new ArrayList<>(List.of("c")),
-                                        new ArrayList<>(List.of("S1"))
-                                ),
-                                new State("S4",
-                                        new ArrayList<>(List.of("b")),
-                                        new ArrayList<>(List.of("S1"))
-                                )
-                        )
+        Formula expectedFormula = new Formula("V", "F",
+                new Function("a", null, "not",
+                    new ArrayList<>(
+                            List.of(
+                                    new State("S0",
+                                            new ArrayList<>(List.of("c")),
+                                            new ArrayList<>(List.of("S1"))
+                                    ),
+                                    new State("S4",
+                                            new ArrayList<>(List.of("b")),
+                                            new ArrayList<>(List.of("S1"))
+                                    )
+                            )
+                    )
                 )
         );
 
@@ -89,14 +92,16 @@ public class FormulaParserTest {
         Formula myFormula = new Formula(formula, structure.states);
 
         // Then
-        Formula expectedFormula = new Formula("V", "F", "a", "b", "intersect",
-                new ArrayList<>(
-                        List.of(
-                                new State("S2",
-                                        new ArrayList<>(Arrays.asList("a", "b")),
-                                        new ArrayList<>(List.of("S4"))
-                                )
-                        )
+        Formula expectedFormula = new Formula("V", "F",
+                new Function("a", "b", "intersect",
+                    new ArrayList<>(
+                            List.of(
+                                    new State("S2",
+                                            new ArrayList<>(Arrays.asList("a", "b")),
+                                            new ArrayList<>(List.of("S4"))
+                                    )
+                            )
+                    )
                 )
         );
 
@@ -112,22 +117,24 @@ public class FormulaParserTest {
         Formula myFormula = new Formula(formula, structure.states);
 
         // Then
-        Formula expectedFormula = new Formula("V", "F", "a", null, "nextTime",
-                new ArrayList<>(
-                        List.of(
-                                new State("S0",
-                                        new ArrayList<>(List.of("c")),
-                                        new ArrayList<>(List.of("S1"))
-                                ),
-                                new State("S1",
-                                        new ArrayList<>(Arrays.asList("a", "c")),
-                                        new ArrayList<>(Arrays.asList("S2", "S3"))
-                                ),
-                                new State("S4",
-                                        new ArrayList<>(List.of("b")),
-                                        new ArrayList<>(List.of("S1"))
-                                )
-                        )
+        Formula expectedFormula = new Formula("V", "F",
+                new Function("a", null, "nextTime",
+                    new ArrayList<>(
+                            List.of(
+                                    new State("S0",
+                                            new ArrayList<>(List.of("c")),
+                                            new ArrayList<>(List.of("S1"))
+                                    ),
+                                    new State("S1",
+                                            new ArrayList<>(Arrays.asList("a", "c")),
+                                            new ArrayList<>(Arrays.asList("S2", "S3"))
+                                    ),
+                                    new State("S4",
+                                            new ArrayList<>(List.of("b")),
+                                            new ArrayList<>(List.of("S1"))
+                                    )
+                            )
+                    )
                 )
         );
 
@@ -143,26 +150,28 @@ public class FormulaParserTest {
         Formula myFormula = new Formula(formula, structure.states);
 
         // Then
-        Formula expectedFormula = new Formula("V", "F", "a", "b", "untilE",
-                new ArrayList<>(
-                        List.of(
-                                new State("S2",
-                                        new ArrayList<>(Arrays.asList("a", "b")),
-                                        new ArrayList<>(List.of("S4"))
-                                ),
-                                new State("S4",
-                                        new ArrayList<>(List.of("b")),
-                                        new ArrayList<>(List.of("S1"))
-                                ),
-                                new State("S1",
-                                        new ArrayList<>(Arrays.asList("a", "c")),
-                                        new ArrayList<>(Arrays.asList("S2","S3"))
-                                ),
-                                new State("S3",
-                                        new ArrayList<>(List.of("a")),
-                                        new ArrayList<>(List.of("S4"))
-                                )
-                        )
+        Formula expectedFormula = new Formula("V", "F",
+                new Function("a", "b", "untilE",
+                    new ArrayList<>(
+                            List.of(
+                                    new State("S2",
+                                            new ArrayList<>(Arrays.asList("a", "b")),
+                                            new ArrayList<>(List.of("S4"))
+                                    ),
+                                    new State("S4",
+                                            new ArrayList<>(List.of("b")),
+                                            new ArrayList<>(List.of("S1"))
+                                    ),
+                                    new State("S1",
+                                            new ArrayList<>(Arrays.asList("a", "c")),
+                                            new ArrayList<>(Arrays.asList("S2","S3"))
+                                    ),
+                                    new State("S3",
+                                            new ArrayList<>(List.of("a")),
+                                            new ArrayList<>(List.of("S4"))
+                                    )
+                            )
+                    )
                 )
         );
 
@@ -178,26 +187,28 @@ public class FormulaParserTest {
         Formula myFormula = new Formula(formula, structure.states);
 
         // Then
-        Formula expectedFormula = new Formula("V", "F", "a", "b", "untilA",
-                new ArrayList<>(
-                        List.of(
-                                new State("S2",
-                                        new ArrayList<>(Arrays.asList("a", "b")),
-                                        new ArrayList<>(List.of("S4"))
-                                ),
-                                new State("S4",
-                                        new ArrayList<>(List.of("b")),
-                                        new ArrayList<>(List.of("S1"))
-                                ),
-                                new State("S3",
-                                        new ArrayList<>(List.of("a")),
-                                        new ArrayList<>(List.of("S4"))
-                                ),
-                                new State("S1",
-                                        new ArrayList<>(Arrays.asList("a", "c")),
-                                        new ArrayList<>(Arrays.asList("S2", "S3"))
-                                )
-                        )
+        Formula expectedFormula = new Formula("V", "F",
+                new Function("a", "b", "untilA",
+                    new ArrayList<>(
+                            List.of(
+                                    new State("S2",
+                                            new ArrayList<>(Arrays.asList("a", "b")),
+                                            new ArrayList<>(List.of("S4"))
+                                    ),
+                                    new State("S4",
+                                            new ArrayList<>(List.of("b")),
+                                            new ArrayList<>(List.of("S1"))
+                                    ),
+                                    new State("S3",
+                                            new ArrayList<>(List.of("a")),
+                                            new ArrayList<>(List.of("S4"))
+                                    ),
+                                    new State("S1",
+                                            new ArrayList<>(Arrays.asList("a", "c")),
+                                            new ArrayList<>(Arrays.asList("S2", "S3"))
+                                    )
+                            )
+                    )
                 )
         );
 

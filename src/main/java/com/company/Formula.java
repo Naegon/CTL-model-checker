@@ -5,16 +5,16 @@ import java.util.ArrayList;
 public class Formula {
     private String quantState;
     private String quantTrans;
-    private final Function func = new Function();
+    private final Function func;
 
     /// GETTER AND SETTER ///
     public void setQuantState(String quantState) { this.quantState = quantState; }
     public void setQuantTrans(String quantTrans) { this.quantTrans = quantTrans; }
     /// GETTER AND SETTER ///
 
-
     /// CONSTRUCTOR
     public Formula(String formula, ArrayList<State> states) {
+        func = new Function(states);
         func.setStates(states);
 
         System.out.println("Initial Formula: " + formula);
@@ -25,14 +25,10 @@ public class Formula {
                 "States: " + func.getResult());
     }
 
-    public Formula(String quantState, String quantTrans, String phi1, String phi2, String caseFunc, ArrayList<State> result) {
+    public Formula(String quantState, String quantTrans, Function func) {
         this.quantState = quantState;
         this.quantTrans = quantTrans;
-
-        func.setPhi1(phi1);
-        func.setPhi2(phi2);
-        func.setCaseFunc(caseFunc);
-        func.setResult(result);
+        this.func = func;
     }
     /// CONSTRUCTOR
 
