@@ -11,8 +11,8 @@ public class Structure {
     public Structure(Object input) {
         JSONObject jsonObject =  (JSONObject) input;
 
-        initialStates = State.toStringArrayList(jsonObject.get("initialStates"));
-        states = State.cast((JSONArray) jsonObject.get("states"));
+        initialStates = Utils.toStringArrayList(jsonObject.get("initialStates"));
+        states = Utils.toStateArrayList((JSONArray) jsonObject.get("states"));
 
         if (!initialStateExist()) {
             throw new IllegalArgumentException(

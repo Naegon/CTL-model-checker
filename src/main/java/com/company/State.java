@@ -13,27 +13,14 @@ public class State {
     public State(Object input) {
         JSONObject state = (JSONObject) input;
         name = (String) state.get("name");
-        values = toStringArrayList(state.get("values"));
-        transitions = toStringArrayList(state.get("transitions"));
+        values = Utils.toStringArrayList(state.get("values"));
+        transitions = Utils.toStringArrayList(state.get("transitions"));
     }
 
     public State(String name, ArrayList<String> values, ArrayList<String> transitions) {
         this.name = name;
         this.values = values;
         this.transitions = transitions;
-    }
-
-    static public ArrayList<State> cast(JSONArray jsonArray) {
-        ArrayList<State> states = new ArrayList<>();
-        for (Object o : jsonArray) states.add(new State(o));
-        return states;
-    }
-
-    static public ArrayList<String> toStringArrayList(Object object) {
-        JSONArray jsonArray = (JSONArray) object;
-        ArrayList<String> strings = new ArrayList<>();
-        for (Object o : jsonArray) strings.add(o.toString());
-        return strings;
     }
 
     @Override
