@@ -40,4 +40,14 @@ public class Function
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "Function{" +
+                "phi1='" + phi1 + '\'' +
+                ", phi2='" + phi2 + '\'' +
+                ", caseFunc='" + caseFunc + '\'' +
+                ", result=" + result +
+                '}';
+    }
 }

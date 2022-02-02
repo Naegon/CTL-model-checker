@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class Structure {
-    final ArrayList<State> states;
+    public final ArrayList<State> states;
     private final ArrayList<String> initialStates;
 
     public Structure(Object input) {

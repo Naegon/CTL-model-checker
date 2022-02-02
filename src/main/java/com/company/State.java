@@ -17,6 +17,12 @@ public class State {
         transitions = toStringArrayList(state.get("transitions"));
     }
 
+    public State(String name, ArrayList<String> values, ArrayList<String> transitions) {
+        this.name = name;
+        this.values = values;
+        this.transitions = transitions;
+    }
+
     static public ArrayList<State> cast(JSONArray jsonArray) {
         ArrayList<State> states = new ArrayList<>();
         for (Object o : jsonArray) states.add(new State(o));

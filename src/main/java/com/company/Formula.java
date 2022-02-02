@@ -161,5 +161,12 @@ public class Formula {
         }
 
         getFunc().caseMaker();
+    @Override
+    public String toString() {
+        return "Formula{" +
+                "quantState='" + quantState + '\'' +
+                ", quantTrans='" + quantTrans + '\'' +
+                ", func=" + func +
+                '}';
     }
 }
