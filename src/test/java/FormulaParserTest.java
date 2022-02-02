@@ -27,7 +27,8 @@ public class FormulaParserTest {
         String formula = "VF(a)";
 
         // When
-        Formula myFormula = new Formula(formula, structure.states);
+        Formula myFormula = new Formula(structure.states);
+        myFormula.subFormulaChecker2(formula);
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
@@ -60,7 +61,8 @@ public class FormulaParserTest {
         String formula = "¬VF(a)";
 
         // When
-        Formula myFormula = new Formula(formula, structure.states);
+        Formula myFormula = new Formula(structure.states);
+        myFormula.subFormulaChecker2(formula);
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
@@ -89,7 +91,8 @@ public class FormulaParserTest {
         String formula = "VF(a^b)";
 
         // When
-        Formula myFormula = new Formula(formula, structure.states);
+        Formula myFormula = new Formula(structure.states);
+        myFormula.subFormulaChecker2(formula);
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
@@ -114,7 +117,8 @@ public class FormulaParserTest {
         String formula = "VF(EXa)";
 
         // When
-        Formula myFormula = new Formula(formula, structure.states);
+        Formula myFormula = new Formula(structure.states);
+        myFormula.subFormulaChecker2(formula);
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
@@ -147,7 +151,8 @@ public class FormulaParserTest {
         String formula = "VF(EaUb)";
 
         // When
-        Formula myFormula = new Formula(formula, structure.states);
+        Formula myFormula = new Formula(structure.states);
+        myFormula.subFormulaChecker2(formula);
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
@@ -184,7 +189,8 @@ public class FormulaParserTest {
         String formula = "VF(AaUb)";
 
         // When
-        Formula myFormula = new Formula(formula, structure.states);
+        Formula myFormula = new Formula(structure.states);
+        myFormula.subFormulaChecker2(formula);
 
         // Then
         Formula expectedFormula = new Formula("V", "F",

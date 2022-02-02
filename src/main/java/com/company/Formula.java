@@ -13,16 +13,9 @@ public class Formula {
     /// GETTER AND SETTER ///
 
     /// CONSTRUCTOR
-    public Formula(String formula, ArrayList<State> states) {
+    public Formula(ArrayList<State> states) {
         func = new Function(states);
         func.setStates(states);
-
-        System.out.println("Initial Formula: " + formula);
-        subFormulaChecker2(formula);
-
-        System.out.println("Results : \n" +
-                "Case: " + func.getCaseFunc() + '\n' +
-                "States: " + func.getResult());
     }
 
     public Formula(String quantState, String quantTrans, Function func) {
@@ -32,7 +25,7 @@ public class Formula {
     }
     /// CONSTRUCTOR
 
-    private void subFormulaChecker2(String formula) {
+    public void subFormulaChecker2(String formula) {
         String firstChar = String.valueOf(formula.charAt(0));
 
         // TODO: appel recursif (négation du résultat de l'appel sur une subformula)
@@ -55,12 +48,9 @@ public class Formula {
             subFormula.add(String.valueOf(formula.charAt(i)));
         }
 
-        if (subFormula.contains("m")) {
-            int index = subFormula.indexOf("m");
-            if (subFormula.get(index+1).equals("a") && subFormula.get(index+2).equals("r") && subFormula.get(index+3).equals("k")) {
-                func.setCaseFunc("marking");
-                func.setPhi1(String.valueOf(formula.charAt(6)));
-            }
+        if (subFormula.contains("mark")) {
+            func.setCaseFunc("marking");
+            func.setPhi1(String.valueOf(formula.charAt(6)));
         }
 
         else if (subFormula.contains("^")) {
@@ -88,6 +78,10 @@ public class Formula {
         }
 
         func.caseMaker();
+
+        System.out.println("Results : \n" +
+                "Case: " + func.getCaseFunc() + '\n' +
+                "States: " + func.getResult());
     }
 
     @Override
