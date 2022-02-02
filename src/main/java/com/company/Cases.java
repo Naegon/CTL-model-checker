@@ -2,7 +2,6 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.stream.Collectors;
 
 public abstract class Cases {
 
@@ -50,12 +49,11 @@ public abstract class Cases {
 
         ArrayList<State> seenBefore = new ArrayList<>();
         ArrayList<State> result = new ArrayList<>();
-        ArrayList<State> pool = markingTwo;
 
-        while(pool.size()!=0){
-            State q = pool.get(0);
-            result.add(pool.get(0));
-            pool.remove(0);
+        while(markingTwo.size()!=0){
+            State q = markingTwo.get(0);
+            result.add(markingTwo.get(0));
+            markingTwo.remove(0);
 
             ArrayList<State> antecedents = getAntecedents(states, q);
 
@@ -64,7 +62,7 @@ public abstract class Cases {
 
                 seenBefore.add(state);
                 if (state.values.contains(psyOne) && !result.contains(state)){
-                    pool.add(state);
+                    markingTwo.add(state);
                 }
             }
         }
@@ -77,21 +75,20 @@ public abstract class Cases {
         ArrayList<State> markingTwo = marking(states, psyTwo);
 
         ArrayList<State> result = new ArrayList<>();
-        ArrayList<State> pool = markingTwo;
 
         Hashtable<String, Integer> dictDegrees = new Hashtable<>();
         for (State state: states) { dictDegrees.put(state.getName(), state.transitions.size()); }
 
-        while(pool.size()!=0){
-            State q = pool.get(0);
-            result.add(pool.get(0));
-            pool.remove(0);
+        while(markingTwo.size()!=0){
+            State q = markingTwo.get(0);
+            result.add(markingTwo.get(0));
+            markingTwo.remove(0);
 
             ArrayList<State> antecedents = getAntecedents(states, q);
 
             for (State state: antecedents) {
                 dictDegrees.put(state.getName(), dictDegrees.get(state.getName()) - 1);
-                if(dictDegrees.get(state.name) == 0 && markingOne.contains(state) && !result.contains(state)) pool.add(state);
+                if(dictDegrees.get(state.name) == 0 && markingOne.contains(state) && !result.contains(state)) markingTwo.add(state);
             }
         }
         return result;

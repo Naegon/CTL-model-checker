@@ -5,22 +5,11 @@ import java.util.ArrayList;
 public class Formula {
     private String quantState;
     private String quantTrans;
-    private ArrayList<State> globalResult;
-    private Function func = new Function();
-
+    private final Function func = new Function();
 
     /// GETTER AND SETTER ///
-    public String getQuantState() { return quantState; }
     public void setQuantState(String quantState) { this.quantState = quantState; }
-
-    public String getQuantTrans() { return quantTrans; }
     public void setQuantTrans(String quantTrans) { this.quantTrans = quantTrans; }
-
-    public ArrayList<State> getGlobalResult() { return globalResult; }
-    public void setGlobalResult(ArrayList<State> globalResult) { this.globalResult = globalResult; }
-
-    public Function getFunc() { return func; }
-    public void setFunc(Function func) { this.func = func; }
     /// GETTER AND SETTER ///
 
 

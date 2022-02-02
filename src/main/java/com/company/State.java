@@ -47,7 +47,4 @@ public class State {
     public String getName() {
         return name;
     }
-    public ArrayList<String> getValues() {
-        return values;
-    }
 }

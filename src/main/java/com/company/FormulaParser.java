@@ -6,6 +6,6 @@ public class FormulaParser
 {
     public FormulaParser(String formula, ArrayList<State> states)
     {
-        Formula myFormula = new Formula(formula, states);
+        new Formula(formula, states);
     }
 }
