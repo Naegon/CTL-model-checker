@@ -18,7 +18,6 @@ public class Formula {
         func.setStates(states);
 
         System.out.println("Initial Formula: " + formula);
-//        System.out.println("Sub Formulas: " + subFormulaChecker1(formula));
         subFormulaChecker2(formula);
 
         System.out.println("Results : \n" +
