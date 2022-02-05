@@ -39,12 +39,12 @@ public class Function {
     // TODO: const strings
     public void caseMaker() {
         switch (caseFunc) {
-            case NOT -> setResult(not(getStates(), getPhi1()));
+            case NOT -> setResult(not(getStates(), marking(getStates(), getPhi1())));
             case MARKING -> setResult(marking(getStates(), getPhi1()));
-            case INTERSECT -> setResult(intersect(getStates(), getPhi1(), getPhi2()));
-            case NEXT_TIME -> setResult(nextTime(getStates(), getPhi1()));
-            case UNTIL_E -> setResult(untilE(getStates(), getPhi1(), getPhi2()));
-            case UNTIL_A -> setResult(untilA(getStates(), getPhi1(), getPhi2()));
+            case INTERSECT -> setResult(intersect(marking(getStates(), getPhi1()), marking(getStates(), getPhi2())));
+            case NEXT_TIME -> setResult(nextTime(getStates(), marking(getStates(), getPhi1())));
+            case UNTIL_E -> setResult(untilE(getStates(), marking(getStates(), getPhi1()), marking(getStates(), getPhi2())));
+            case UNTIL_A -> setResult(untilA(getStates(), marking(getStates(), getPhi1()), marking(getStates(), getPhi2())));
             case DEFAULT -> {
                 System.out.println("Attention mal ecrit !");
                 setResult(marking(getStates(), getPhi1()));

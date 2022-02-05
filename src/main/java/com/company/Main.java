@@ -14,12 +14,12 @@ public class Main {
 
             ArrayList<String> formulas = new ArrayList<>(Arrays.asList(
                 "¬(EF(c ∧ d) U EF(a ∧ b))",
-                "VF(a)",
-                "¬VF(a)",
-                "VF(a^b)",
-                "VF(EXa)",
-                "VF(EaUb)",
-                "VF(AaUb)"
+                "∀F(a)",
+                "¬∀F(a)",
+                "∀F(a^b)",
+                "∀F(EXa)",
+                "∀F(EaUb)",
+                "∀F(AaUb)"
             ));
 
             Formula myFormula = new Formula(structure.states);

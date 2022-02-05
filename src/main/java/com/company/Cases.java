@@ -17,25 +17,23 @@ public abstract class Cases {
     }
 
     // Case two: φ = ¬ψ
-    public static ArrayList<State> not(ArrayList<State> states, String value) {
-        states.removeAll(marking(states, value));
+    public static ArrayList<State> not(ArrayList<State> states, ArrayList<State> markingPhi) {
+        states.removeAll(markingPhi);
         return states;
     }
 
     // Case three:  φ = ψ1 ∧ ψ2
-    public static ArrayList<State> intersect(ArrayList<State> states, String valuesOne, String valuesTwo) {
-        ArrayList<State> output = marking(states, valuesOne);
-        output.retainAll(marking(states, valuesTwo));
-        return output;
+    public static ArrayList<State> intersect(ArrayList<State> markingPhi1, ArrayList<State> markingPhi2) {
+        markingPhi1.retainAll(markingPhi2);
+        return markingPhi1;
     }
 
     // Case four: φ = EXψ
-    public static ArrayList<State> nextTime(ArrayList<State> states, String value) {
-        ArrayList<State> marking = marking(states, value);
+    public static ArrayList<State> nextTime(ArrayList<State> states, ArrayList<State> markingPhi) {
         ArrayList<State> output = new ArrayList<>();
 
         for (State state: states) {
-            if (state.transitions.stream().anyMatch(marking.stream().map(State::getName).toList()::contains)) {
+            if (state.transitions.stream().anyMatch(markingPhi.stream().map(State::getName).toList()::contains)) {
                 output.add(state);
             }
         }
@@ -44,16 +42,14 @@ public abstract class Cases {
     }
 
     // Case five: φ = Eψ1 U ψ2
-    public static ArrayList<State> untilE(ArrayList<State> states, String psyOne, String psyTwo) {
-        ArrayList<State> markingTwo = marking(states, psyTwo);
-
+    public static ArrayList<State> untilE(ArrayList<State> states, ArrayList<State> markingPhi1, ArrayList<State> markingPhi2) {
         ArrayList<State> seenBefore = new ArrayList<>();
         ArrayList<State> result = new ArrayList<>();
 
-        while(markingTwo.size()!=0){
-            State q = markingTwo.get(0);
-            result.add(markingTwo.get(0));
-            markingTwo.remove(0);
+        while(markingPhi2.size()!=0){
+            State q = markingPhi2.get(0);
+            result.add(markingPhi2.get(0));
+            markingPhi2.remove(0);
 
             ArrayList<State> antecedents = getAntecedents(states, q);
 
@@ -61,8 +57,8 @@ public abstract class Cases {
                 if(seenBefore.contains(state)) break;
 
                 seenBefore.add(state);
-                if (state.values.contains(psyOne) && !result.contains(state)){
-                    markingTwo.add(state);
+                if (markingPhi1.contains(state) && !result.contains(state)){
+                    markingPhi2.add(state);
                 }
             }
         }
@@ -70,25 +66,22 @@ public abstract class Cases {
     }
 
     // Case 6: φ = Aψ1 U ψ2
-    public static ArrayList<State> untilA(ArrayList<State> states, String psyOne, String psyTwo) {
-        ArrayList<State> markingOne = marking(states, psyOne);
-        ArrayList<State> markingTwo = marking(states, psyTwo);
-
+    public static ArrayList<State> untilA(ArrayList<State> states, ArrayList<State> markingPhi1, ArrayList<State> markingPhi2) {
         ArrayList<State> result = new ArrayList<>();
 
         Hashtable<String, Integer> dictDegrees = new Hashtable<>();
         for (State state: states) { dictDegrees.put(state.getName(), state.transitions.size()); }
 
-        while(markingTwo.size()!=0){
-            State q = markingTwo.get(0);
-            result.add(markingTwo.get(0));
-            markingTwo.remove(0);
+        while(markingPhi2.size()!=0){
+            State q = markingPhi2.get(0);
+            result.add(markingPhi2.get(0));
+            markingPhi2.remove(0);
 
             ArrayList<State> antecedents = getAntecedents(states, q);
 
             for (State state: antecedents) {
                 dictDegrees.put(state.getName(), dictDegrees.get(state.getName()) - 1);
-                if(dictDegrees.get(state.name) == 0 && markingOne.contains(state) && !result.contains(state)) markingTwo.add(state);
+                if(dictDegrees.get(state.name) == 0 && markingPhi1.contains(state) && !result.contains(state)) markingPhi2.add(state);
             }
         }
         return result;
