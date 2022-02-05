@@ -42,17 +42,16 @@ public class Function {
     public void setStates(ArrayList<State> states) { this.states = states; }
 
     // TODO: const strings
-    public ArrayList<State> caseMaker() {
-        return switch (caseFunc) {
-            case NOT -> not(getStates(), marking(getStates(), getPhi1()));
-            case MARKING -> marking(getStates(), getPhi1());
-            case INTERSECT -> intersect(marking(getStates(), getPhi1()), marking(getStates(), getPhi2()));
-            case NEXT_TIME -> nextTime(getStates(), marking(getStates(), getPhi1()));
-            case UNTIL_E -> untilE(getStates(), marking(getStates(), getPhi1()), marking(getStates(), getPhi2()));
-            case UNTIL_A -> untilA(getStates(), marking(getStates(), getPhi1()), marking(getStates(), getPhi2()));
-
-        };
-    }
+//    public ArrayList<State> caseMaker() {
+//        return switch (caseFunc) {
+//            case NOT -> not(getStates(), marking(getStates(), getPhi1()));
+//            case MARKING -> marking(getStates(), getPhi1());
+//            case INTERSECT -> intersect(marking(getStates(), getPhi1()), marking(getStates(), getPhi2()));
+//            case NEXT_TIME -> nextTime(getStates(), marking(getStates(), getPhi1()));
+//            case UNTIL_E -> untilE(getStates(), marking(getStates(), getPhi1()), marking(getStates(), getPhi2()));
+//            case UNTIL_A -> untilA(getStates(), marking(getStates(), getPhi1()), marking(getStates(), getPhi2()));
+//        };
+//    }
 
     @Override
     public String toString() {

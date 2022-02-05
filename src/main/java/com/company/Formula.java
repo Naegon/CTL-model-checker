@@ -1,6 +1,5 @@
 package com.company;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
 
 import static com.company.Cases.CasesName.*;
@@ -53,7 +52,7 @@ public class Formula {
         return newFormula;
     }
 
-//    public Cases.CasesName getCase(Formula formula)
+//    public Cases.CasesName getCase(Formula value)
 //    {
 //        //Check case majoritaire
 //
@@ -72,7 +71,8 @@ public class Formula {
             func.setCaseFunc(NOT);
             func.setPhi1(String.valueOf(formula.charAt(4)));
 
-            return func.caseMaker();
+//            return func.caseMaker();
+            return null;
         }
 
         setQuantState(String.valueOf(formula.charAt(0)));
@@ -116,7 +116,8 @@ public class Formula {
                 "Case: " + func.getCaseFunc() + '\n' +
                 "States: " + getFinalResult());
 
-        return func.caseMaker();
+//        return func.caseMaker();
+        return null;
     }
 
 
