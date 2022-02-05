@@ -1,0 +1,30 @@
+{
+  "initialStates": [ "S0" ],
+  "states":
+  [{
+    "name": "S0",
+    "values": [ "a" ],
+    "transitions": [ "S1", "S2" ]
+  },
+    {
+      "name": "S1",
+      "values": [ "a" ],
+      "transitions": [ "S3" ]
+    },
+    {
+      "name": "S2",
+      "values": [ "b" ],
+      "transitions": [ "S4" ]
+    },
+    {
+      "name": "S3",
+      "values": [ "b" ],
+      "transitions": [ "S3" ]
+    },
+    {
+      "name": "S4",
+      "values": [ "a" ],
+      "transitions": [ "S4" ]
+    }
+  ]
+}

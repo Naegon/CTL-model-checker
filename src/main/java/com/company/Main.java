@@ -18,12 +18,12 @@ public class Main {
                 "¬∀F(a)",
                 "∀F(a^b)",
                 "∀F(EXa)",
-                "∀F(EaUb)",
-                "∀F(AaUb)"
+                "∀F(EaUc)",
+                "∀F(AaUc)"
             ));
 
             Formula myFormula = new Formula(structure.states);
-            myFormula.getResult(formulas.get(1));
+            myFormula.formulaMaker(formulas.get(6));
         }
         catch (IllegalArgumentException e) {
             e.printStackTrace();

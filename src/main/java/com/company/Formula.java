@@ -34,25 +34,6 @@ public class Formula {
     /// CONSTRUCTOR
 
 
-    public ArrayList<State> getResult(String formula)
-    {
-        String newformula = transformFormula(formula);
-        //Check if subFormula
-            //if yes
-                //return formulaMaker(subformula)
-            //else
-                //return formulaMaker(newformula)
-
-        return formulaMaker(newformula);
-    }
-
-    public String transformFormula(String formula)
-    {
-        String newFormula = "";
-        //Transform
-        return newFormula;
-    }
-
 //    public Cases.CasesName getCase(Formula formula)
 //    {
 //        //Check case majoritaire
@@ -72,7 +53,13 @@ public class Formula {
             func.setCaseFunc(NOT);
             func.setPhi1(String.valueOf(formula.charAt(4)));
 
-            return func.caseMaker();
+            finalResult = func.caseMaker();
+
+            System.out.println("Results: \n" +
+                    "Case: " + func.getCaseFunc() + '\n' +
+                    "States: " + getFinalResult());
+
+            return finalResult;
         }
 
         setQuantState(String.valueOf(formula.charAt(0)));
@@ -112,11 +99,13 @@ public class Formula {
             func.setPhi1(String.valueOf(formula.charAt(3)));
         }
 
+        finalResult = func.caseMaker();
+
         System.out.println("Results: \n" +
                 "Case: " + func.getCaseFunc() + '\n' +
                 "States: " + getFinalResult());
 
-        return func.caseMaker();
+        return finalResult;
     }
 
 

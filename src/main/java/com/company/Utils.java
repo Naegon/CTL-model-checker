@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public abstract class Utils {
     //TODO: Mettre plusieurs static files pour qu'il choisisse les formules/schémas à utiliser
-    public static final String PATHFILE = "src/main/java/com/company/files/schematest.json";
+    public static final String PATHFILE = "src/main/java/com/company/files/schema9.json";
 
     public static Object readFromFile(String path) {
         JSONParser parser = new JSONParser();
