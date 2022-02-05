@@ -11,6 +11,14 @@ public class Function {
     private ArrayList<State> result;
     private ArrayList<State> states;
 
+    //Nanoformula = idle1 ∧ idle2
+    //Microformula = EF(idle1 ∧ idle2)
+    //MiniFormula = ¬(EF(idle1 ∧ idle2))
+    //MediumFormula = EtrueU¬(EF(idle1 ∧ idle2))
+    //MaxiFormula = ¬(EtrueU¬(EF(idle1 ∧ idle2)))
+
+    //MaxiFormula.getResult() = return not(MediumFormula.getResult())
+
     public Function(String phi1, String phi2, CasesName caseFunc, ArrayList<State> result) {
         this.phi1 = phi1;
         this.phi2 = phi2;
@@ -30,26 +38,20 @@ public class Function {
     public CasesName getCaseFunc() { return caseFunc; }
     public void setCaseFunc(CasesName caseFunc) { this.caseFunc = caseFunc; }
 
-    public ArrayList<State> getResult() { return result; }
-    public void setResult(ArrayList<State> result) { this.result = result; }
-
     public ArrayList<State> getStates() { return states; }
     public void setStates(ArrayList<State> states) { this.states = states; }
 
     // TODO: const strings
-    public void caseMaker() {
-        switch (caseFunc) {
-            case NOT -> setResult(not(getStates(), marking(getStates(), getPhi1())));
-            case MARKING -> setResult(marking(getStates(), getPhi1()));
-            case INTERSECT -> setResult(intersect(marking(getStates(), getPhi1()), marking(getStates(), getPhi2())));
-            case NEXT_TIME -> setResult(nextTime(getStates(), marking(getStates(), getPhi1())));
-            case UNTIL_E -> setResult(untilE(getStates(), marking(getStates(), getPhi1()), marking(getStates(), getPhi2())));
-            case UNTIL_A -> setResult(untilA(getStates(), marking(getStates(), getPhi1()), marking(getStates(), getPhi2())));
-            case DEFAULT -> {
-                System.out.println("Attention mal ecrit !");
-                setResult(marking(getStates(), getPhi1()));
-            }
-        }
+    public ArrayList<State> caseMaker() {
+        return switch (caseFunc) {
+            case NOT -> not(getStates(), marking(getStates(), getPhi1()));
+            case MARKING -> marking(getStates(), getPhi1());
+            case INTERSECT -> intersect(marking(getStates(), getPhi1()), marking(getStates(), getPhi2()));
+            case NEXT_TIME -> nextTime(getStates(), marking(getStates(), getPhi1()));
+            case UNTIL_E -> untilE(getStates(), marking(getStates(), getPhi1()), marking(getStates(), getPhi2()));
+            case UNTIL_A -> untilA(getStates(), marking(getStates(), getPhi1()), marking(getStates(), getPhi2()));
+
+        };
     }
 
     @Override
@@ -58,7 +60,6 @@ public class Function {
                 "phi1='" + phi1 + '\'' +
                 ", phi2='" + phi2 + '\'' +
                 ", caseFunc='" + caseFunc + '\'' +
-                ", result=" + result +
                 '}';
     }
 

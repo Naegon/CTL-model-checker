@@ -1,24 +1,31 @@
 package com.company;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
 
 import static com.company.Cases.CasesName.*;
 
 public class Formula {
+    private String initialFormula;
     private String quantState;
     private String quantTrans;
     private final Function func;
+    private ArrayList<State> states;
+    private ArrayList<State> finalResult;
+
 
     /// GETTER AND SETTER ///
     public void setQuantState(String quantState) { this.quantState = quantState; }
     public void setQuantTrans(String quantTrans) { this.quantTrans = quantTrans; }
-    /// GETTER AND SETTER ///
+    public ArrayList<State> getFinalResult() { return finalResult; }
+    public Function getFunc() { return func; }
+/// GETTER AND SETTER ///
 
     /// CONSTRUCTOR
-    public Formula(ArrayList<State> states) {
+    public Formula(ArrayList<State> states)
+    {
         func = new Function(states);
     }
-
     public Formula(String quantState, String quantTrans, Function func) {
         this.quantState = quantState;
         this.quantTrans = quantTrans;
@@ -26,10 +33,38 @@ public class Formula {
     }
     /// CONSTRUCTOR
 
-    public void subFormulaChecker(String formula) {
+
+    public ArrayList<State> getResult(String formula)
+    {
+        String newformula = transformFormula(formula);
+        //Check if subFormula
+            //if yes
+                //return formulaMaker(subformula)
+            //else
+                //return formulaMaker(newformula)
+
+        return formulaMaker(newformula);
+    }
+
+    public String transformFormula(String formula)
+    {
+        String newFormula = "";
+        //Transform
+        return newFormula;
+    }
+
+//    public Cases.CasesName getCase(Formula formula)
+//    {
+//        //Check case majoritaire
+//
+//    }
+
+    public ArrayList<State> formulaMaker(String formula) {
         String firstChar = String.valueOf(formula.charAt(0));
 
-        // TODO: appel recursif (négation du résultat de l'appel sur une subformula)
+        // TODO: Transformer
+        // TODO: Trouver s'il y a des sous-formules
+
         if (firstChar.equals("¬")) {
             setQuantState(String.valueOf(formula.charAt(1)));
             setQuantTrans(String.valueOf(formula.charAt(2)));
@@ -37,8 +72,7 @@ public class Formula {
             func.setCaseFunc(NOT);
             func.setPhi1(String.valueOf(formula.charAt(4)));
 
-            func.caseMaker();
-            return;
+            return func.caseMaker();
         }
 
         setQuantState(String.valueOf(formula.charAt(0)));
@@ -74,16 +108,17 @@ public class Formula {
         }
 
         else {
-            func.setCaseFunc(DEFAULT);
+            func.setCaseFunc(MARKING);
             func.setPhi1(String.valueOf(formula.charAt(3)));
         }
 
-        func.caseMaker();
-
         System.out.println("Results: \n" +
                 "Case: " + func.getCaseFunc() + '\n' +
-                "States: " + func.getResult());
+                "States: " + getFinalResult());
+
+        return func.caseMaker();
     }
+
 
     @Override
     public String toString() {

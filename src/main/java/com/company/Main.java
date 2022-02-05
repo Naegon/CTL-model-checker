@@ -13,7 +13,7 @@ public class Main {
             System.out.println(structure);
 
             ArrayList<String> formulas = new ArrayList<>(Arrays.asList(
-                "¬(EF(c ∧ d) U EF(a ∧ b))",
+                "¬(EF(c∧d)UEF(a∧b))",
                 "∀F(a)",
                 "¬∀F(a)",
                 "∀F(a^b)",
@@ -23,7 +23,7 @@ public class Main {
             ));
 
             Formula myFormula = new Formula(structure.states);
-            myFormula.subFormulaChecker(formulas.get(0));
+            myFormula.getResult(formulas.get(1));
         }
         catch (IllegalArgumentException e) {
             e.printStackTrace();

@@ -24,11 +24,11 @@ public class FormulaParserTest {
 
         // When
         Formula myFormula = new Formula(structure.states);
-        myFormula.subFormulaChecker(formula);
+        myFormula.formulaMaker(formula);
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
-            new Function("a", null, DEFAULT,
+            new Function("a", null, MARKING,
                 new ArrayList<>(
                     List.of(
                         new State("S1",
@@ -58,7 +58,7 @@ public class FormulaParserTest {
 
         // When
         Formula myFormula = new Formula(structure.states);
-        myFormula.subFormulaChecker(formula);
+        myFormula.formulaMaker(formula);
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
@@ -88,7 +88,7 @@ public class FormulaParserTest {
 
         // When
         Formula myFormula = new Formula(structure.states);
-        myFormula.subFormulaChecker(formula);
+        myFormula.formulaMaker(formula);
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
@@ -114,7 +114,7 @@ public class FormulaParserTest {
 
         // When
         Formula myFormula = new Formula(structure.states);
-        myFormula.subFormulaChecker(formula);
+        myFormula.formulaMaker(formula);
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
@@ -148,7 +148,7 @@ public class FormulaParserTest {
 
         // When
         Formula myFormula = new Formula(structure.states);
-        myFormula.subFormulaChecker(formula);
+        myFormula.formulaMaker(formula);
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
@@ -186,7 +186,7 @@ public class FormulaParserTest {
 
         // When
         Formula myFormula = new Formula(structure.states);
-        myFormula.subFormulaChecker(formula);
+        myFormula.formulaMaker(formula);
 
         // Then
         Formula expectedFormula = new Formula("V", "F",
