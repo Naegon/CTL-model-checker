@@ -77,7 +77,7 @@ public record FormulaString(String value, Structure structure) {
 	public FormulaString formulaTransform(){
 		String transformValue = value;
 		List<String> test = Arrays.asList("AX","AG","AF","EG","EF","F");
-		String[] replace = {"¬EX(¬","¬(E(TU(¬","A(TU","¬AT(U¬","E(TU","TU"};
+		String[] replace = {"¬EX(¬","¬(E(TU(¬","A(TU","¬A(TU¬","E(TU","TU"};
 
 		for (int i=0;i<test.size();i++){
 			transformValue = transformValue.replace(test.get(i), replace[i]);
