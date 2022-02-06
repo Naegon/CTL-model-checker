@@ -6,41 +6,38 @@ import java.util.Hashtable;
 public abstract class Cases {
 
     // Case one: φ=p
-    public static ArrayList<State> marking(FormulaString formulaString) {
+    public static ArrayList<State> marking(String transition, Structure structure) {
         ArrayList<State> atomicsStates = new ArrayList<>();
 
-        for (State state: formulaString.structure().states) {
-            if (state.values.contains(formulaString.value())) atomicsStates.add(state);
+        for (State state: structure.states) {
+            if (state.values.contains(transition)) atomicsStates.add(state);
         }
 
         return atomicsStates;
     }
 
     /** Case two: φ = ¬ψ
-     * @param formulaString
+     * @param phi
      * @return not(subFormula)
      */
-    public static ArrayList<State> not(FormulaString formulaString) {
-        ArrayList<State> base = formulaString.structure().states;
-        base.removeAll(formulaString.apply());
+    public static ArrayList<State> not(ArrayList<State> phi, Structure structure) {
+        ArrayList<State> base = structure.states;
+        base.removeAll(phi);
         return base;
     }
 
     // Case three:  φ = ψ1 ∧ ψ2
-    public static ArrayList<State> intersect(FormulaString formula1, FormulaString formula2) {
-        ArrayList<State> output = formula1.apply();
-        output.retainAll(formula2.apply());
-        return output;
+    public static ArrayList<State> intersect(ArrayList<State> phi1, ArrayList<State> phi2, Structure structure) {
+        phi1.retainAll(phi2);
+        return phi1;
     }
 
     // Case four: φ = EXψ
-    public static ArrayList<State> nextTime(FormulaString formulaString) {
+    public static ArrayList<State> nextTime(ArrayList<State> phi, Structure structure) {
         ArrayList<State> output = new ArrayList<>();
 
-        ArrayList<State> markingPhi = formulaString.apply();
-
-        for (State state: formulaString.structure().states) {
-            if (state.transitions.stream().anyMatch(markingPhi.stream().map(State::getName).toList()::contains)) {
+        for (State state: structure.states) {
+            if (state.transitions.stream().anyMatch(phi.stream().map(State::getName).toList()::contains)) {
                 output.add(state);
             }
         }
@@ -49,26 +46,24 @@ public abstract class Cases {
     }
 
     // Case five: φ = Eψ1 U ψ2
-    public static ArrayList<State> untilE(FormulaString formula1, FormulaString formula2) {
+    public static ArrayList<State> untilE(ArrayList<State> phi1, ArrayList<State> phi2, Structure structure) {
         ArrayList<State> seenBefore = new ArrayList<>();
         ArrayList<State> result = new ArrayList<>();
 
-        ArrayList<State> markingPhi1 = formula1.apply();
-        ArrayList<State> markingPhi2 = formula2.apply();
 
-        while (markingPhi2.size() != 0) {
-            State q = markingPhi2.get(0);
-            result.add(markingPhi2.get(0));
-            markingPhi2.remove(0);
+        while (phi2.size() != 0) {
+            State q = phi2.get(0);
+            result.add(phi2.get(0));
+            phi2.remove(0);
 
-            ArrayList<State> antecedents = getAntecedents(formula1.structure().states, q);
+            ArrayList<State> antecedents = getAntecedents(structure.states, q);
 
             for (State state: antecedents) {
                 if(seenBefore.contains(state)) break;
 
                 seenBefore.add(state);
-                if (markingPhi1.contains(state) && !result.contains(state)){
-                    markingPhi2.add(state);
+                if (phi1.contains(state) && !result.contains(state)){
+                    phi2.add(state);
                 }
             }
         }
@@ -76,25 +71,22 @@ public abstract class Cases {
     }
 
     // Case 6: φ = Aψ1 U ψ2
-    public static ArrayList<State> untilA(FormulaString formula1, FormulaString formula2) {
+    public static ArrayList<State> untilA(ArrayList<State> phi1, ArrayList<State> phi2, Structure structure) {
         ArrayList<State> result = new ArrayList<>();
 
         Hashtable<String, Integer> dictDegrees = new Hashtable<>();
-        for (State state: formula1.structure().states) { dictDegrees.put(state.getName(), state.transitions.size()); }
+        for (State state: structure.states) { dictDegrees.put(state.getName(), state.transitions.size()); }
 
-        ArrayList<State> markingPhi1 = formula1.apply();
-        ArrayList<State> markingPhi2 = formula2.apply();
+        while(phi2.size()!=0){
+            State q = phi2.get(0);
+            result.add(phi2.get(0));
+            phi2.remove(0);
 
-        while(markingPhi2.size()!=0){
-            State q = markingPhi2.get(0);
-            result.add(markingPhi2.get(0));
-            markingPhi2.remove(0);
-
-            ArrayList<State> antecedents = getAntecedents(formula1.structure().states, q);
+            ArrayList<State> antecedents = getAntecedents(structure.states, q);
 
             for (State state: antecedents) {
                 dictDegrees.put(state.getName(), dictDegrees.get(state.getName()) - 1);
-                if(dictDegrees.get(state.name) == 0 && markingPhi1.contains(state) && !result.contains(state)) markingPhi2.add(state);
+                if(dictDegrees.get(state.name) == 0 && phi2.contains(state) && !result.contains(state)) phi2.add(state);
             }
         }
         return result;

@@ -19,7 +19,7 @@ public record FormulaString(String value, Structure structure) {
 
 		if (matcher.find()) {
 			System.out.println("  Intersect(\"" + matcher.group(1) + "\", \"" + matcher.group(2) + "\")");
-			return Cases.intersect(new FormulaString(matcher.group(1), structure), new FormulaString(matcher.group(2), structure));
+			return Cases.intersect(new FormulaString(matcher.group(1), structure).apply(), new FormulaString(matcher.group(2), structure).apply(), structure);
 		}
 
 		switch (value.charAt(0)) {
@@ -27,30 +27,30 @@ public record FormulaString(String value, Structure structure) {
 				FormulaString subFormula = new FormulaString(value.substring(1), structure);
 				if (subFormula.value.charAt(0) == '(' && subFormula.areParenthesisEnclosing()) subFormula = subFormula.removeEnclosingParenthesis();
 				System.out.println("  not " + subFormula.value);
-				return Cases.not(subFormula);
+				return Cases.not(subFormula.apply(), structure);
 			}
 			case 'E' -> {
 				if (value.charAt(1) == 'X') {
 					String subFormula = value.substring(3, value.length()-1);
 					System.out.println("  next " + subFormula);
-					return Cases.nextTime(new FormulaString(subFormula, structure));
+					return Cases.nextTime(new FormulaString(subFormula, structure).apply(), structure);
 				}
 				String subFormula = value.substring(2, value.length()-1);
 				Pair subFormulas = getSubFormulas(subFormula);
 				System.out.println("  E " + subFormulas.getKey() + " until " + subFormulas.getValue());
-				return Cases.untilE(new FormulaString((String) subFormulas.getKey(), structure), new FormulaString((String) subFormulas.getValue(), structure));
+				return Cases.untilE(new FormulaString((String) subFormulas.getKey(), structure).apply(), new FormulaString((String) subFormulas.getValue(), structure).apply(), structure);
 			}
 			case 'A' -> {
 				String subFormula = value.substring(2, value.length()-1);
 				Pair subFormulas = getSubFormulas(subFormula);
 				System.out.println("  A " + subFormulas.getKey() + " until " + subFormulas.getValue());
-				return Cases.untilA(new FormulaString((String) subFormulas.getKey(), structure), new FormulaString((String) subFormulas.getValue(), structure));
+				return Cases.untilA(new FormulaString((String) subFormulas.getKey(), structure).apply(), new FormulaString((String) subFormulas.getValue(), structure).apply(), structure);
 			}
 			case 'T' -> {
 				return structure.states;
 			}
 			default -> {
-				return(Cases.marking(this));
+				return Cases.marking(this.value, structure);
 			}
 		}
 	}
