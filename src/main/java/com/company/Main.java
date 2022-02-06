@@ -50,6 +50,7 @@ public class Main {
                     System.out.print("Choice : ");
                     choice = scan.nextInt();
                     structure = new Structure(readFromFile(PATHFILESCHEMA+choice+".json"));
+                    choice=0;
                     System.out.println(structure);
                     break;
                 }
@@ -68,6 +69,7 @@ public class Main {
                     choice = scan.nextInt();
 
                     CTLFormula = formulaCTL.get(choice-1);
+                    choice=0;
                     System.out.println("Formula choose:"+CTLFormula);
                     break;
                 }
@@ -85,8 +87,10 @@ public class Main {
 
                     try {
                         Formula myFormula = new Formula(CTLFormula, structure).formulaTransform();
+                        System.out.println("Base formula: " + CTLFormula);
+                        System.out.println("Transformed formula: " + myFormula.getValue());
                         ArrayList<State> result = myFormula.process();
-                        System.out.println(result);
+                        System.out.println("\n\n|| ----- Result: ----- ||\n" + result);
                     }
                     catch (IllegalArgumentException e) {
                         e.printStackTrace();

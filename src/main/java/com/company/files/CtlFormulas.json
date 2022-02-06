@@ -10,11 +10,11 @@
     },
     {
         "name": "3",
-        "formula": "a^b"
+        "formula": "(a^b)"
     },
     {
         "name": "4",
-        "formula": "EX(a^b)"
+        "formula": "EX(a)"
     },
     {
         "name": "5",
@@ -26,19 +26,19 @@
     },
     {
         "name": "7",
-        "formula": "¬(a^b)"
+        "formula": "¬A(aUb)"
     },
     {
         "name": "8",
-        "formula": "a^b^(AG(¬(b)))"
+        "formula": "EG(b)"
     },
     {
         "name": "9",
-        "formula": "a^b^(EF(¬(b)))"
+        "formula": "AX(EF(¬(b)))"
     },
     {
         "name": "10",
-        "formula": "AG(EF(a∧b))"
+        "formula": "AG(EF(a))"
     },
     {
         "name": "11",
@@ -46,11 +46,11 @@
     },
     {
         "name": "12",
-        "formula": "AG(EF(a∧b))^c"
+        "formula": "AG(EF(a))^c"
     },
     {
         "name": "13",
-        "formula": "(EX(AG(EF(a∧b))^c)^(¬EF(EF(AG(b))))"
+        "formula": "(EX(AG(EF(a)))^(¬EF(EF(AG(b))))"
     }]
 }
 

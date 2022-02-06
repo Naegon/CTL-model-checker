@@ -140,8 +140,8 @@ public class Formula {
 
 	public Formula formulaTransform() {
 		String transformValue = value;
-		List<String> test = Arrays.asList("AX", "AG", "AF", "EG", "EF", "F");
-		String[] replace = { "¬EX(¬", "¬(E(TU(¬", "A(TU", "¬A(TU¬", "E(TU", "TU"};
+		List<String> test = Arrays.asList("AX", "AG", "AF", "EG", "EF");
+		String[] replace = { "¬EX(¬", "¬(E(TU(¬", "A(TU", "¬A(TU¬", "E(TU"};
 
 		for (int i=0;i<test.size();i++){
 			transformValue = transformValue.replace(test.get(i), replace[i]);
