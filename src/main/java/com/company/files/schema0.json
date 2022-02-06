@@ -2,7 +2,7 @@
   "states":  [
   { "name": "S0",
     "values": [ "a", "b" ],
-    "transitions": [ "S1", "S2" ]
+    "transitions": [ "S1" ]
   },
   { "name": "S1",
     "values": [ "c", "d", "e" ],
