@@ -2,6 +2,7 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.stream.Collectors;
 
 public abstract class Cases {
 
@@ -21,8 +22,9 @@ public abstract class Cases {
      * @return An ArrayList of States satisfying the condition
      */
     public static ArrayList<State> not(ArrayList<State> phi, Structure structure) {
-        structure.states.removeAll(phi);
-        return structure.states;
+        return structure.states.stream()
+                .filter(state -> phi.stream().noneMatch(state::equals))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     // Case three:  φ = ψ1 ^ ψ2

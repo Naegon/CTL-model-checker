@@ -282,7 +282,7 @@ public class FormulaStringTest {
 	@Test
 	public void test_big_formula() {
 		// Given
-		FormulaString formula = new FormulaString("¬(¬(E(TU(E(TU(a))))))", structure);
+		FormulaString formula = new FormulaString("¬(¬(E(TU(E(TU(a))))))^c", structure);
 
 		// When
 		ArrayList<State> output = formula.process();
@@ -303,107 +303,6 @@ public class FormulaStringTest {
 		assertEquals(expected, output);
 	}
 
-//	@Test
-//	public void test_formula_1() {
-//		// Given
-//		FormulaString formula = new FormulaString("¬(E(TU¬(E(TU(a^b)))))", structure);
-//
-//		// When
-//		ArrayList<State> output = formula.apply();
-//
-//		// Then
-//		ArrayList<State> expected = new ArrayList<>(
-//			List.of(
-//				new State("S1",
-//					new ArrayList<>(Arrays.asList("a", "c")),
-//					new ArrayList<>(Arrays.asList("S2", "S3"))
-//				),
-//				new State("S2",
-//					new ArrayList<>(Arrays.asList("a", "b")),
-//					new ArrayList<>(List.of("S4"))
-//				),
-//				new State("S3",
-//					new ArrayList<>(List.of("a")),
-//					new ArrayList<>(List.of("S4"))
-//				)
-//			)
-//		);
-//
-//		assertEquals(expected, output);
-//	}
-//
-//	@Test
-//	public void test_formula_2() {
-//		// Given
-//		FormulaString formula = new FormulaString("¬(E(TU(E(TU(¬(E(TU¬(b))))))))", structure);
-//
-//		// When
-//		formula.apply();
-//	}
-//
-//	@Test
-//	public void test_formula_3() {
-//		// Given
-//		FormulaString formula = new FormulaString("EX(a^b)", structure);
-//
-//		// When
-//		formula.apply();
-//	}
-//
-//	@Test
-//	public void test_formula_4() {
-//		// Given
-//		FormulaString formula = new FormulaString("¬(a^b)", structure);
-//
-//		// When
-//		formula.apply();
-//	}
-//
-//	@Test
-//	public void test_formula_5() {
-//		// Given
-//		FormulaString formula = new FormulaString("¬(E(TU¬(E(TU(a ^ b)))))^c", structure);
-//
-//		// When
-//		formula.apply();
-//	}
-//
-//	@Test
-//	public void test_formula_6() {
-//		// Given
-//		FormulaString formula = new FormulaString("(¬(E(TU¬(E(TU(a ^ b)))))^c)^¬(E(TU(E(TU(¬(E(TU¬(b))))))))", structure);
-//
-//		// When
-//		formula.apply();
-//	}
-//
-//	@Test
-//	public void test_formula_7() {
-//		// Given
-//		FormulaString formula = new FormulaString("a^(¬(E(TU¬(¬(b)))))", structure);
-//
-//		// When
-//		formula.apply();
-//	}
-//
-//	@Test
-//	public void test_formula_8() {
-//		// Given
-//		FormulaString formula = new FormulaString("a^(E(TU(¬(b))))", structure);
-//
-//		// When
-//		formula.apply();
-//	}
-//
-//	@Test
-//	public void test_formula_9() {
-//		// Given
-//		FormulaString formula = new FormulaString("(a^b)", structure);
-//
-//		// When
-//		formula.apply();
-//	}
-//
 	@Test
 	public void test_getSubFormula1() {
 		FormulaString formula = new FormulaString("TU¬(E(TU(a^b)))", structure);
