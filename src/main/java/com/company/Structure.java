@@ -19,7 +19,7 @@ public class Structure {
                     String.format(
                             "Initial state %s not described in file %s",
                             initialStates,
-                            Utils.PATHFILE
+                            Utils.PATHFILEFORMULA
                     )
             );
         }

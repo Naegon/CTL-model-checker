@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.company.Cases.CasesName.*;
-import static com.company.Utils.PATHFILE;
+import static com.company.Utils.PATHFILEFORMULA;
 import static com.company.Utils.readFromFile;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +15,7 @@ public class FormulaParserTest {
     private Structure structure;
 
     @Before
-    public void initializer() { structure = new Structure(readFromFile(PATHFILE)); }
+    public void initializer() { structure = new Structure(readFromFile(PATHFILEFORMULA)); }
 
     @Test
     public void test_formula2() {
