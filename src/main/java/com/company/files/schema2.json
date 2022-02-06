@@ -3,32 +3,32 @@
   "states":
   [{
     "name": "S0",
-    "values": [ "g" ],
+    "values": [ "a" ],
     "transitions": [ "S0", "S1" ]
   },
     {
       "name": "S1",
-      "values": [ "s" ],
+      "values": [ "c" ],
       "transitions": [ "S2" ]
     },
     {
       "name": "S2",
-      "values": [ "w" ],
+      "values": [ "d" ],
       "transitions": [ "S1", "S3" ]
     },
     {
       "name": "S3",
-      "values": [ "g", "b" ],
+      "values": [ "a", "b" ],
       "transitions": [ "S4" ]
     },
     {
       "name": "S4",
-      "values": [ "g", "b" ],
+      "values": [ "a", "b" ],
       "transitions": [ "S5" ]
     },
     {
       "name": "S5",
-      "values": [ "g", "b" ],
+      "values": [ "a", "b" ],
       "transitions": [ "S4", "S5" ]
     }]
 }

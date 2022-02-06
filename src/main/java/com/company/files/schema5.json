@@ -4,12 +4,12 @@
   [{
     "name": "S0",
     "values": [ "c" ],
-    "transitions": [ "S1", "S3" ]
+    "transitions": [ "S1" ]
   },
     {
       "name": "S1",
       "values": [ "a", "c" ],
-      "transitions": [ "S2" ]
+      "transitions": [ "S2", "S3" ]
     },
     {
       "name": "S2",
@@ -18,12 +18,12 @@
     },
     {
       "name": "S3",
-      "values": [ "b" ],
+      "values": [ "a" ],
       "transitions": [ "S4" ]
     },
     {
       "name": "S4",
-      "values": [ "a" ],
+      "values": [ "b" ],
       "transitions": [ "S1" ]
     }]
 }
