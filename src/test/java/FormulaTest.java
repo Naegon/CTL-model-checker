@@ -1,4 +1,4 @@
-import com.company.FormulaString;
+import com.company.Formula;
 import com.company.State;
 import com.company.Structure;
 import javafx.util.Pair;
@@ -13,7 +13,7 @@ import static com.company.Utils.PATHFILE;
 import static com.company.Utils.readFromFile;
 import static org.junit.Assert.*;
 
-public class FormulaStringTest {
+public class FormulaTest {
 	private Structure structure;
 
 	@Before
@@ -22,7 +22,7 @@ public class FormulaStringTest {
 	@Test
 	public void test_case1_marking() {
 		// Given
-		FormulaString formula = new FormulaString("a", structure);
+		Formula formula = new Formula("a", structure);
 
 		// When
 		ArrayList<State> output = formula.process();
@@ -50,7 +50,7 @@ public class FormulaStringTest {
 	@Test
 	public void test_case2_not() {
 		// Given
-		FormulaString formula = new FormulaString("¬a", structure);
+		Formula formula = new Formula("¬a", structure);
 
 		// When
 		ArrayList<State> output = formula.process();
@@ -86,7 +86,7 @@ public class FormulaStringTest {
 	@Test
 	public void test_case2_not_withEmptyStates() {
 		// Given
-		FormulaString formula = new FormulaString("¬g", structure);
+		Formula formula = new Formula("¬g", structure);
 
 		// When
 		ArrayList<State> output = formula.process();
@@ -134,7 +134,7 @@ public class FormulaStringTest {
 	@Test
 	public void test_case2_not_not() {
 		// Given
-		FormulaString formula = new FormulaString("¬(¬(a))", structure);
+		Formula formula = new Formula("¬(¬(a))", structure);
 
 		// When
 		ArrayList<State> output = formula.process();
@@ -162,7 +162,7 @@ public class FormulaStringTest {
 	@Test
 	public void test_case3_intersect() {
 		// Given
-		FormulaString formula = new FormulaString("a^b", structure);
+		Formula formula = new Formula("a^b", structure);
 
 		// When
 		ArrayList<State> output = formula.process();
@@ -182,7 +182,7 @@ public class FormulaStringTest {
 	@Test
 	public void test_case4_next() {
 		// Given
-		FormulaString formula = new FormulaString("EX(a)", structure);
+		Formula formula = new Formula("EX(a)", structure);
 
 		// When
 		ArrayList<State> output = formula.process();
@@ -222,7 +222,7 @@ public class FormulaStringTest {
 	@Test
 	public void test_case5_untilE() {
 		// Given
-		FormulaString formula = new FormulaString("E(aUc)", structure);
+		Formula formula = new Formula("E(aUc)", structure);
 
 		// When
 		ArrayList<State> output = formula.process();
@@ -258,7 +258,7 @@ public class FormulaStringTest {
 	@Test
 	public void test_case6_untilA() {
 		// Given
-		FormulaString formula = new FormulaString("A(aUc)", structure);
+		Formula formula = new Formula("A(aUc)", structure);
 
 		// When
 		ArrayList<State> output = formula.process();
@@ -282,7 +282,7 @@ public class FormulaStringTest {
 	@Test
 	public void test_big_formula() {
 		// Given
-		FormulaString formula = new FormulaString("¬(¬(E(TU(E(TU(a))))))^c", structure);
+		Formula formula = new Formula("¬(¬(E(TU(E(TU(a))))))^c", structure);
 
 		// When
 		ArrayList<State> output = formula.process();
@@ -305,30 +305,30 @@ public class FormulaStringTest {
 
 	@Test
 	public void test_getSubFormula1() {
-		FormulaString formula = new FormulaString("TU¬(E(TU(a^b)))", structure);
+		Formula formula = new Formula("TU¬(E(TU(a^b)))", structure);
 
 		// When
-		Pair output = FormulaString.getSubFormulas(formula.getValue());
+		Pair<String, String> output = Formula.getSubFormulas(formula.getValue());
 
 		// Then
-		assertEquals(new Pair("T", "¬(E(TU(a^b)))"), output);
+		assertEquals(new Pair<>("T", "¬(E(TU(a^b)))"), output);
 	}
 
 	@Test
 	public void test_getSubFormula2() {
-		FormulaString formula = new FormulaString("¬(E(TU(a^b)))UT", structure);
+		Formula formula = new Formula("¬(E(TU(a^b)))UT", structure);
 
 		// When
-		Pair output = FormulaString.getSubFormulas(formula.getValue());
+		Pair<String, String> output = Formula.getSubFormulas(formula.getValue());
 
 		// Then
-		assertEquals(new Pair("¬(E(TU(a^b)))", "T"), output);
+		assertEquals(new Pair<>("¬(E(TU(a^b)))", "T"), output);
 	}
 
 	@Test
 	public void test_areParenthesisEnclosing1() {
 		// Given
-		FormulaString formula = new FormulaString("(¬(E(TU(a^b)))UT)", structure);
+		Formula formula = new Formula("(¬(E(TU(a^b)))UT)", structure);
 
 		// Then
 		assertTrue(formula.areParenthesisEnclosing());
@@ -337,7 +337,7 @@ public class FormulaStringTest {
 	@Test
 	public void test_areParenthesisEnclosing2() {
 		// Given
-		FormulaString formula = new FormulaString("(¬(E(TU(a^b)))UT)^c", structure);
+		Formula formula = new Formula("(¬(E(TU(a^b)))UT)^c", structure);
 
 		// Then
 		assertFalse(formula.areParenthesisEnclosing());

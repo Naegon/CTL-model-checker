@@ -22,8 +22,8 @@ public class Main {
                 "∀F(AaUb)"
             ));
 
-            Formula myFormula = new Formula(structure.states);
-            myFormula.getResult(formulas.get(1));
+//            Formula myFormula = new Formula(structure.states);
+//            myFormula.getResult(formulas.get(1));
         }
         catch (IllegalArgumentException e) {
             e.printStackTrace();

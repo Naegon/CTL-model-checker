@@ -28,7 +28,7 @@ public abstract class Cases {
     }
 
     // Case three:  φ = ψ1 ^ ψ2
-    public static ArrayList<State> intersect(ArrayList<State> phi1, ArrayList<State> phi2, Structure structure) {
+    public static ArrayList<State> intersect(ArrayList<State> phi1, ArrayList<State> phi2) {
         phi1.retainAll(phi2);
         return phi1;
     }
@@ -92,7 +92,7 @@ public abstract class Cases {
 
             for (State state: antecedents) {
                 dictDegrees.put(state.getName(), dictDegrees.get(state.getName()) - 1);
-                if(dictDegrees.get(state.name) == 0 && phi2.contains(state) && !result.contains(state)) phi2.add(state);
+                if(dictDegrees.get(state.name) == 0 && phi1.contains(state) && !result.contains(state)) phi2.add(state);
             }
         }
         return result;
@@ -104,7 +104,5 @@ public abstract class Cases {
 
         return antecedents;
     }
-
-    public enum CasesName { NOT, MARKING, INTERSECT, NEXT_TIME, UNTIL_E, UNTIL_A }
 
 }

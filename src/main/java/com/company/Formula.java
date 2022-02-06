@@ -1,132 +1,138 @@
 package com.company;
 
-import java.util.ArrayList;
+import javafx.util.Pair;
 
-import static com.company.Cases.CasesName.*;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Formula {
-    private String initialFormula;
-    private String quantState;
-    private String quantTrans;
-    private final Function func;
-    private ArrayList<State> states;
-    private ArrayList<State> finalResult;
+	private static final String REGEX = "(.+)\\^(.+)";
+	static final Pattern pattern = Pattern.compile(REGEX, Pattern.COMMENTS);
 
+	private String value;
+	private final Structure structure;
 
-    /// GETTER AND SETTER ///
-    public void setQuantState(String quantState) { this.quantState = quantState; }
-    public void setQuantTrans(String quantTrans) { this.quantTrans = quantTrans; }
-    public ArrayList<State> getFinalResult() { return finalResult; }
-    public Function getFunc() { return func; }
-/// GETTER AND SETTER ///
+	public Formula(String value, Structure structure) {
+		this.value = value;
+		this.structure = structure;
+	}
 
-    /// CONSTRUCTOR
-    public Formula(ArrayList<State> states)
-    {
-        func = new Function(states);
-    }
-    public Formula(String quantState, String quantTrans, Function func) {
-        this.quantState = quantState;
-        this.quantTrans = quantTrans;
-        this.func = func;
-    }
-    /// CONSTRUCTOR
+	public Formula setValue(String value) {
+		this.value = value;
+		return this;
+	}
 
+	public ArrayList<State> process() {
+		if (value.charAt(0) == '(' && areParenthesisEnclosing()) {
+			removeEnclosingParenthesis();
+		}
 
-    public ArrayList<State> getResult(String formula)
-    {
-        String newformula = transformFormula(formula);
-        //Check if subFormula
-            //if yes
-                //return formulaMaker(subformula)
-            //else
-                //return formulaMaker(newformula)
+		Matcher matcher = pattern.matcher(value);
+		String baseFormula = value;
 
-        return formulaMaker(newformula);
-    }
+		if (matcher.find()) {
+			ArrayList<State> result = Cases.intersect(setValue(matcher.group(1)).process(), setValue(matcher.group(2)).process());
+			System.out.println("\nFormula: " + baseFormula);
+			System.out.println("  Intersect(\"" + matcher.group(1) + "\", \"" + matcher.group(2) + "\")");
+			System.out.println("Intersect: " + result);
+			return result;
+		}
 
-    public String transformFormula(String formula)
-    {
-        String newFormula = "";
-        //Transform
-        return newFormula;
-    }
+		switch (value.charAt(0)) {
+			case '¬' -> {
+				setValue(value.substring(1));
+				if (value.charAt(0) == '(' && areParenthesisEnclosing()) removeEnclosingParenthesis();
 
-//    public Cases.CasesName getCase(Formula value)
-//    {
-//        //Check case majoritaire
-//
-//    }
+				ArrayList<State> result = Cases.not(process(), structure);
+				System.out.println("\nFormula: " + baseFormula);
+				System.out.print("  not " + value);
+				System.out.println(" -> " + result);
+				return result;
+			}
+			case 'E' -> {
+				if (value.charAt(1) == 'X') {
+					String subFormula = value.substring(3, value.length()-1);
 
-    public ArrayList<State> formulaMaker(String formula) {
-        String firstChar = String.valueOf(formula.charAt(0));
+					ArrayList<State> result = Cases.nextTime(setValue(subFormula).process(), structure);
+					System.out.println("\nFormula: " + baseFormula);
+					System.out.print("  next " + subFormula);
+					System.out.println(" -> " + result);
+					return result;
+				}
+				String subFormula = value.substring(2, value.length()-1);
+				Pair<String, String> subFormulas = getSubFormulas(subFormula);
 
-        // TODO: Transformer
-        // TODO: Trouver s'il y a des sous-formules
+				ArrayList<State> result = Cases.untilE(setValue((String) subFormulas.getKey()).process(), setValue((String) subFormulas.getValue()).process(), structure);
+				System.out.println("\nFormula: " + baseFormula);
+				System.out.print("  E " + subFormulas.getKey() + " until " + subFormulas.getValue());
+				System.out.println(" -> " + result);
+				return result;
+			}
+			case 'A' -> {
+				String subFormula = value.substring(2, value.length()-1);
+				Pair<String, String> subFormulas = getSubFormulas(subFormula);
 
-        if (firstChar.equals("¬")) {
-            setQuantState(String.valueOf(formula.charAt(1)));
-            setQuantTrans(String.valueOf(formula.charAt(2)));
+				ArrayList<State> result = Cases.untilA(setValue((String) subFormulas.getKey()).process(), setValue((String) subFormulas.getValue()).process(), structure);
+				System.out.println("\nFormula: " + baseFormula);
+				System.out.print("  A " + subFormulas.getKey() + " until " + subFormulas.getValue());
+				System.out.println(" -> " + result);
+				return result;
+			}
+			case 'T' -> {
+				System.out.println("\nFormula: " + baseFormula);
+				System.out.print("  All states");
+				System.out.println(" -> " + structure.states);
+				return structure.states;
+			}
+			default -> {
+				ArrayList<State> result = Cases.marking(value, structure);
 
-            func.setCaseFunc(NOT);
-            func.setPhi1(String.valueOf(formula.charAt(4)));
+				System.out.println("\nFormula: " + baseFormula);
+				System.out.print("  Marking " + value);
+				System.out.println(" -> " + result);
+				return result;
+			}
+		}
+	}
 
-//            return func.caseMaker();
-            return null;
-        }
+	public static Pair<String, String> getSubFormulas(String subFormula) {
+		Pair<String, String> result;
 
-        setQuantState(String.valueOf(formula.charAt(0)));
-        setQuantTrans(String.valueOf(formula.charAt(1)));
+		String regex = "[¬]?(?:([AE]|EX)?[(].+[)]|[a-z]|[TF])";
+		Pattern pattern = Pattern.compile(regex, Pattern.COMMENTS);
+		Matcher matcher = pattern.matcher(subFormula);
 
-        ArrayList<String> subFormula = new ArrayList<>();
-        for (int i = 3; i < formula.length() - 1; i++) {
-            subFormula.add(String.valueOf(formula.charAt(i)));
-        }
+		if (matcher.find()) {
+			String match1 = matcher.group(0);
+			matcher.find();
+			String match2 = matcher.group(0);
 
-        if (subFormula.contains("mark")) {
-            func.setCaseFunc(MARKING);
-            func.setPhi1(String.valueOf(formula.charAt(6)));
-        }
+			result = new Pair<>(match1, match2);
+		} else {
+			result = new Pair<>("", "");
+		}
+		return result;
+	}
 
-        else if (subFormula.contains("^")) {
-            func.setCaseFunc(INTERSECT);
-            func.setPhi1(String.valueOf(formula.charAt(3)));
-            func.setPhi2(String.valueOf(formula.charAt(5)));
-        }
+	public Boolean areParenthesisEnclosing() {
+		int nestLevel = 0;
+		char[] charArray = value.toCharArray();
 
-        else if (subFormula.contains("X")) {
-            func.setCaseFunc(NEXT_TIME);
-            func.setPhi1(String.valueOf(formula.charAt(5)));
-        }
+		for (int i = 0; i < charArray.length; i++) {
+			if (charArray[i] == '(') { nestLevel ++; }
+			else if (charArray[i] == ')') { nestLevel --; }
+			if (nestLevel == 0) { return (i == charArray.length-1); }
+		}
 
-        else if (subFormula.contains("U")) {
-            if (subFormula.contains("E")) { func.setCaseFunc(UNTIL_E); }
-            else { func.setCaseFunc(UNTIL_A); }
+		return false;
+	}
 
-            func.setPhi1(String.valueOf(formula.charAt(4)));
-            func.setPhi2(String.valueOf(formula.charAt(6)));
-        }
+	public void removeEnclosingParenthesis() {
+		setValue(value.substring(1, value.length()-1));
+	}
 
-        else {
-            func.setCaseFunc(MARKING);
-            func.setPhi1(String.valueOf(formula.charAt(3)));
-        }
-
-        System.out.println("Results: \n" +
-                "Case: " + func.getCaseFunc() + '\n' +
-                "States: " + getFinalResult());
-
-//        return func.caseMaker();
-        return null;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Formula{" +
-                "quantState='" + quantState + '\'' +
-                ", quantTrans='" + quantTrans + '\'' +
-                ", func=" + func +
-                '}';
-    }
+	public String getValue() {
+		return value;
+	}
 }
