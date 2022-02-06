@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import static com.company.Utils.PATHFILE;
 import static com.company.Utils.readFromFile;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class FormulaStringTest {
 	private Structure structure;

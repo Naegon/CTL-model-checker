@@ -9,7 +9,7 @@ import java.util.List;
 import static com.company.Cases.CasesName.*;
 import static com.company.Utils.PATHFILE;
 import static com.company.Utils.readFromFile;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.assertEquals;
 
 public class FormulaParserTest {
     private Structure structure;
