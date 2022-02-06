@@ -10,6 +10,10 @@ import java.util.ArrayList;
 public abstract class Utils {
     //TODO: Mettre plusieurs static files pour qu'il choisisse les formules/schémas à utiliser
     public static final String PATHFILE = "src/main/java/com/company/files/schema9.json";
+    public static final String PATHFILESCHEMA = "src/main/java/com/company/files/schema";
+    public static final String PATHFILEFORMULA = "src/main/java/com/company/files/CtlFormulas.json";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_RESET = "\u001B[0m";
 
     public static Object readFromFile(String path) {
         JSONParser parser = new JSONParser();
@@ -33,6 +37,10 @@ public abstract class Utils {
         ArrayList<String> strings = new ArrayList<>();
         for (Object o : jsonArray) strings.add(o.toString());
         return strings;
+    }
+
+    public static String red(String string){
+        return ANSI_RED+string+ANSI_RESET;
     }
 
 }

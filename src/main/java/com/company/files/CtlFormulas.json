@@ -1,0 +1,55 @@
+{
+  "formulas" : [
+    {
+      "name": "1",
+      "formula": "a"
+    },
+    {
+      "name": "2",
+      "formula": "¬a"
+    },
+    {
+      "name": "3",
+      "formula": "a^b"
+    },
+    {
+      "name": "4",
+      "formula": "EX(a^b)"
+    },
+    {
+      "name": "5",
+      "formula": "E(aUb)"
+    },
+    {
+      "name": "6",
+      "formula": "A(aUb)"
+    },
+    {
+      "name": "7",
+      "formula": "¬(a^b)"
+    },
+    {
+      "name": "8",
+      "formula": "a^b^(AG(¬(b)))"
+    },
+    {
+      "name": "9",
+      "formula": "a^b^(EF(¬(b)))"
+    },
+    {
+      "name": "10",
+      "formula": "AG(EF(a^b))"
+    },
+    {
+      "name": "11",
+      "formula": "¬(EF(EF(AG(b))))"
+    },
+    {
+      "name": "12",
+      "formula": "AG(EF(a))^c"
+    },
+    {
+      "name": "13",
+      "formula": "(EX(AG(EF(a^b))^c)^(¬EF(EF(AG(b))))"
+    }]
+}
