@@ -16,10 +16,14 @@ public abstract class Cases {
         return atomicsStates;
     }
 
-    // Case two: φ = ¬ψ
+    /** Case two: φ = ¬ψ
+     * @param formulaString
+     * @return not(subFormula)
+     */
     public static ArrayList<State> not(FormulaString formulaString) {
-        formulaString.structure().states.removeAll(formulaString.apply());
-        return formulaString.structure().states;
+        ArrayList<State> base = formulaString.structure().states;
+        base.removeAll(formulaString.apply());
+        return base;
     }
 
     // Case three:  φ = ψ1 ∧ ψ2
@@ -33,8 +37,10 @@ public abstract class Cases {
     public static ArrayList<State> nextTime(FormulaString formulaString) {
         ArrayList<State> output = new ArrayList<>();
 
+        ArrayList<State> markingPhi = formulaString.apply();
+
         for (State state: formulaString.structure().states) {
-            if (state.transitions.stream().anyMatch(formulaString.apply().stream().map(State::getName).toList()::contains)) {
+            if (state.transitions.stream().anyMatch(markingPhi.stream().map(State::getName).toList()::contains)) {
                 output.add(state);
             }
         }
@@ -47,10 +53,13 @@ public abstract class Cases {
         ArrayList<State> seenBefore = new ArrayList<>();
         ArrayList<State> result = new ArrayList<>();
 
-        while(formula2.apply().size()!=0){
-            State q = formula2.apply().get(0);
-            result.add(formula2.apply().get(0));
-            formula2.apply().remove(0);
+        ArrayList<State> markingPhi1 = formula1.apply();
+        ArrayList<State> markingPhi2 = formula2.apply();
+
+        while (markingPhi2.size() != 0) {
+            State q = markingPhi2.get(0);
+            result.add(markingPhi2.get(0));
+            markingPhi2.remove(0);
 
             ArrayList<State> antecedents = getAntecedents(formula1.structure().states, q);
 
@@ -58,8 +67,8 @@ public abstract class Cases {
                 if(seenBefore.contains(state)) break;
 
                 seenBefore.add(state);
-                if (formula1.apply().contains(state) && !result.contains(state)){
-                    formula2.apply().add(state);
+                if (markingPhi1.contains(state) && !result.contains(state)){
+                    markingPhi2.add(state);
                 }
             }
         }
@@ -67,18 +76,21 @@ public abstract class Cases {
     }
 
     // Case 6: φ = Aψ1 U ψ2
-    public static ArrayList<State> untilA(ArrayList<State> states, ArrayList<State> markingPhi1, ArrayList<State> markingPhi2) {
+    public static ArrayList<State> untilA(FormulaString formula1, FormulaString formula2) {
         ArrayList<State> result = new ArrayList<>();
 
         Hashtable<String, Integer> dictDegrees = new Hashtable<>();
-        for (State state: states) { dictDegrees.put(state.getName(), state.transitions.size()); }
+        for (State state: formula1.structure().states) { dictDegrees.put(state.getName(), state.transitions.size()); }
+
+        ArrayList<State> markingPhi1 = formula1.apply();
+        ArrayList<State> markingPhi2 = formula2.apply();
 
         while(markingPhi2.size()!=0){
             State q = markingPhi2.get(0);
             result.add(markingPhi2.get(0));
             markingPhi2.remove(0);
 
-            ArrayList<State> antecedents = getAntecedents(states, q);
+            ArrayList<State> antecedents = getAntecedents(formula1.structure().states, q);
 
             for (State state: antecedents) {
                 dictDegrees.put(state.getName(), dictDegrees.get(state.getName()) - 1);
