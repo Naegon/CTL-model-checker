@@ -1,9 +1,9 @@
 package com.company;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import static com.company.Utils.*;
+import static com.company.Utils.PATHFILE;
+import static com.company.Utils.readFromFile;
 
 public class Main {
 
@@ -11,25 +11,15 @@ public class Main {
         try {
             Structure structure = new Structure(readFromFile(PATHFILE));
             System.out.println(structure);
-
-            ArrayList<String> formulas = new ArrayList<>(Arrays.asList(
-                "¬(EF(c^d)UEF(a^b))",
-                "∀F(a)",
-                "¬∀F(a)",
-                "∀F(a^b)",
-                "∀F(EXa)",
-                "∀F(EaUb)",
-                "∀F(AaUb)"
-            ));
-
-//            Formula myFormula = new Formula(structure.states);
-//            myFormula.getResult(formulas.get(1));
+            Formula baseFormula = new Formula("AG(EF(a))^c", structure);
+            System.out.println("Base formula: " + baseFormula.getValue());
+            Formula transformedFormula = baseFormula.formulaTransform();
+            System.out.println("Transformed formula: " + transformedFormula.getValue());
+            ArrayList<State> result = transformedFormula.process();
+            System.out.println("\n\n|| ----- Résult: ----- ||\n" + result);
         }
         catch (IllegalArgumentException e) {
             e.printStackTrace();
-        }
-        finally {
-            System.out.println("Fin du programme");
         }
     }
 }

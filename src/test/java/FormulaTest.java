@@ -282,7 +282,7 @@ public class FormulaTest {
 	@Test
 	public void test_big_formula() {
 		// Given
-		Formula formula = new Formula("¬(¬(E(TU(E(TU(a))))))^c", structure);
+		Formula formula = new Formula("¬(E(TU¬(E(TU(a)))))^c", structure);
 
 		// When
 		ArrayList<State> output = formula.process();

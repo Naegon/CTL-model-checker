@@ -3,6 +3,8 @@ package com.company;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -135,4 +137,57 @@ public class Formula {
 	public String getValue() {
 		return value;
 	}
+
+	public Formula formulaTransform() {
+		String transformValue = value;
+		List<String> test = Arrays.asList("AX", "AG", "AF", "EG", "EF", "F");
+		String[] replace = { "¬EX(¬", "¬(E(TU(¬", "A(TU", "¬A(TU¬", "E(TU", "TU"};
+
+		for (int i=0;i<test.size();i++){
+			transformValue = transformValue.replace(test.get(i), replace[i]);
+			transformValue = insertParenthesis(transformValue);
+		}
+
+		return new Formula(transformValue, structure);
+	}
+
+	public String insertParenthesis(String string){
+		String newString = string;
+		int nestLevel = 0;
+		char encounter = '"';
+
+		for (int i = 0; i < newString.length(); i++) {
+			if(newString.charAt(i) == '('){
+				nestLevel++;
+				encounter = '(';
+			}
+			else if(newString.charAt(i)  == ')'){
+				if(nestLevel!=0){
+					nestLevel--;
+				}
+				encounter = ')';
+			}
+
+			if(!(newString.charAt(i)  == ')') && (encounter==')')){
+				while(nestLevel!=0){
+					newString = addChar(newString, ')', i);
+					nestLevel--;
+				}
+				encounter = '"';
+			}
+		}
+		if(encounter==')'){
+			while(nestLevel!=0){
+				newString = addChar(newString, ')', newString.length());
+				nestLevel--;
+			}
+		}
+
+		return newString;
+	}
+
+	public String addChar(String str, char ch, int position) {
+		return str.substring(0, position) + ch + str.substring(position);
+	}
+
 }
