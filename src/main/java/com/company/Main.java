@@ -91,6 +91,13 @@ public class Main {
                         System.out.println("Transformed formula: " + myFormula.getValue());
                         ArrayList<State> result = myFormula.process();
                         System.out.println("\n\n|| ----- Result: ----- ||\n" + result);
+                        Boolean Satisfy = myFormula.statisfyInital(result);
+                        if(Satisfy){
+                            System.out.println("this system satisfy the given formula");
+                        }
+                        else {
+                            System.out.println("this system does not satisfy the given formula");
+                        }
                     }
                     catch (IllegalArgumentException e) {
                         e.printStackTrace();

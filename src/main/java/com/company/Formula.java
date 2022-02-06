@@ -190,4 +190,11 @@ public class Formula {
 		return str.substring(0, position) + ch + str.substring(position);
 	}
 
+	public Boolean statisfyInital(ArrayList<State> result){
+		if(result.contains(structure.initialStates)){
+			return true;
+		}
+		return false;
+	}
+
 }
