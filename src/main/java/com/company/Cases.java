@@ -17,16 +17,15 @@ public abstract class Cases {
     }
 
     /** Case two: φ = ¬ψ
-     * @param phi
-     * @return not(subFormula)
+     * @param phi An ArrayList of States satisfying the sub-formula
+     * @return An ArrayList of States satisfying the condition
      */
     public static ArrayList<State> not(ArrayList<State> phi, Structure structure) {
-        ArrayList<State> base = structure.states;
-        base.removeAll(phi);
-        return base;
+        structure.states.removeAll(phi);
+        return structure.states;
     }
 
-    // Case three:  φ = ψ1 ∧ ψ2
+    // Case three:  φ = ψ1 ^ ψ2
     public static ArrayList<State> intersect(ArrayList<State> phi1, ArrayList<State> phi2, Structure structure) {
         phi1.retainAll(phi2);
         return phi1;
@@ -45,11 +44,16 @@ public abstract class Cases {
         return output;
     }
 
-    // Case five: φ = Eψ1 U ψ2
+    /** Case five: φ = Eψ1 U ψ2
+     * @param phi1 An ArrayList of States satisfying the sub-formula
+     * @param phi2 An ArrayList of States satisfying the sub-formula
+     * @param structure The Kripke structure being studied
+     * @return An ArrayList of States satisfying the condition
+     */
     public static ArrayList<State> untilE(ArrayList<State> phi1, ArrayList<State> phi2, Structure structure) {
-        ArrayList<State> seenBefore = new ArrayList<>();
         ArrayList<State> result = new ArrayList<>();
 
+        ArrayList<State> seenBefore = new ArrayList<>(phi2);
 
         while (phi2.size() != 0) {
             State q = phi2.get(0);
@@ -59,11 +63,11 @@ public abstract class Cases {
             ArrayList<State> antecedents = getAntecedents(structure.states, q);
 
             for (State state: antecedents) {
-                if(seenBefore.contains(state)) break;
-
-                seenBefore.add(state);
-                if (phi1.contains(state) && !result.contains(state)){
-                    phi2.add(state);
+                if(!seenBefore.contains(state)) {
+                    seenBefore.add(state);
+                    if (phi1.contains(state) && !result.contains(state)){
+                        phi2.add(state);
+                    }
                 }
             }
         }

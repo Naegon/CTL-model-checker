@@ -11,11 +11,11 @@ public class Function {
     private ArrayList<State> result;
     private ArrayList<State> states;
 
-    //Nanoformula = idle1 ∧ idle2
-    //Microformula = EF(idle1 ∧ idle2)
-    //MiniFormula = ¬(EF(idle1 ∧ idle2))
-    //MediumFormula = EtrueU¬(EF(idle1 ∧ idle2))
-    //MaxiFormula = ¬(EtrueU¬(EF(idle1 ∧ idle2)))
+    //Nanoformula = idle1 ^ idle2
+    //Microformula = EF(idle1 ^ idle2)
+    //MiniFormula = ¬(EF(idle1 ^ idle2))
+    //MediumFormula = EtrueU¬(EF(idle1 ^ idle2))
+    //MaxiFormula = ¬(EtrueU¬(EF(idle1 ^ idle2)))
 
     //MaxiFormula.getResult() = return not(MediumFormula.getResult())
 

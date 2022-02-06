@@ -6,51 +6,92 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public record FormulaString(String value, Structure structure) {
+public class FormulaString {
 	private static final String REGEX = "(.+)\\^(.+)";
 	static final Pattern pattern = Pattern.compile(REGEX, Pattern.COMMENTS);
 
-	public ArrayList<State> apply() {
+	private String value;
+	private final Structure structure;
+
+	public FormulaString(String value, Structure structure) {
+		this.value = value;
+		this.structure = structure;
+	}
+
+	public FormulaString setValue(String value) {
+		this.value = value;
+		return this;
+	}
+
+	public ArrayList<State> process() {
+		if (value.charAt(0) == '(' && areParenthesisEnclosing()) {
+			removeEnclosingParenthesis();
+		}
+
 		Matcher matcher = pattern.matcher(value);
-
-		System.out.println("\nFormula: " + this.value);
-
-		if (value.charAt(0) == '(' && areParenthesisEnclosing()) { return (removeEnclosingParenthesis().apply()); }
+		String baseFormula = value;
 
 		if (matcher.find()) {
+			ArrayList<State> result = Cases.intersect(setValue(matcher.group(1)).process(), setValue(matcher.group(2)).process(), structure);
+			System.out.println("\nFormula: " + baseFormula);
 			System.out.println("  Intersect(\"" + matcher.group(1) + "\", \"" + matcher.group(2) + "\")");
-			return Cases.intersect(new FormulaString(matcher.group(1), structure).apply(), new FormulaString(matcher.group(2), structure).apply(), structure);
+			System.out.println("Intersect: " + result);
+			return result;
 		}
 
 		switch (value.charAt(0)) {
 			case '¬' -> {
-				FormulaString subFormula = new FormulaString(value.substring(1), structure);
-				if (subFormula.value.charAt(0) == '(' && subFormula.areParenthesisEnclosing()) subFormula = subFormula.removeEnclosingParenthesis();
-				System.out.println("  not " + subFormula.value);
-				return Cases.not(subFormula.apply(), structure);
+				setValue(value.substring(1));
+				if (value.charAt(0) == '(' && areParenthesisEnclosing()) removeEnclosingParenthesis();
+
+				ArrayList<State> result = Cases.not(process(), structure);
+				System.out.println("\nFormula: " + baseFormula);
+				System.out.print("  not " + value);
+				System.out.println(" -> " + result);
+				return result;
 			}
 			case 'E' -> {
 				if (value.charAt(1) == 'X') {
 					String subFormula = value.substring(3, value.length()-1);
-					System.out.println("  next " + subFormula);
-					return Cases.nextTime(new FormulaString(subFormula, structure).apply(), structure);
+
+					ArrayList<State> result = Cases.nextTime(setValue(subFormula).process(), structure);
+					System.out.println("\nFormula: " + baseFormula);
+					System.out.print("  next " + subFormula);
+					System.out.println(" -> " + result);
+					return result;
 				}
 				String subFormula = value.substring(2, value.length()-1);
 				Pair subFormulas = getSubFormulas(subFormula);
-				System.out.println("  E " + subFormulas.getKey() + " until " + subFormulas.getValue());
-				return Cases.untilE(new FormulaString((String) subFormulas.getKey(), structure).apply(), new FormulaString((String) subFormulas.getValue(), structure).apply(), structure);
+
+				ArrayList<State> result = Cases.untilE(setValue((String) subFormulas.getKey()).process(), setValue((String) subFormulas.getValue()).process(), structure);
+				System.out.println("\nFormula: " + baseFormula);
+				System.out.print("  E " + subFormulas.getKey() + " until " + subFormulas.getValue());
+				System.out.println(" -> " + result);
+				return result;
 			}
 			case 'A' -> {
 				String subFormula = value.substring(2, value.length()-1);
 				Pair subFormulas = getSubFormulas(subFormula);
-				System.out.println("  A " + subFormulas.getKey() + " until " + subFormulas.getValue());
-				return Cases.untilA(new FormulaString((String) subFormulas.getKey(), structure).apply(), new FormulaString((String) subFormulas.getValue(), structure).apply(), structure);
+
+				ArrayList<State> result = Cases.untilA(setValue((String) subFormulas.getKey()).process(), setValue((String) subFormulas.getValue()).process(), structure);
+				System.out.println("\nFormula: " + baseFormula);
+				System.out.print("  A " + subFormulas.getKey() + " until " + subFormulas.getValue());
+				System.out.println(" -> " + result);
+				return result;
 			}
 			case 'T' -> {
+				System.out.println("\nFormula: " + baseFormula);
+				System.out.print("  All states");
+				System.out.println(" -> " + structure.states);
 				return structure.states;
 			}
 			default -> {
-				return Cases.marking(this.value, structure);
+				ArrayList<State> result = Cases.marking(value, structure);
+
+				System.out.println("\nFormula: " + baseFormula);
+				System.out.print("  Marking " + value);
+				System.out.println(" -> " + result);
+				return result;
 			}
 		}
 	}
@@ -87,7 +128,11 @@ public record FormulaString(String value, Structure structure) {
 		return false;
 	}
 
-	public FormulaString removeEnclosingParenthesis() {
-		return new FormulaString(value.substring(1, value.length()-1), structure);
+	public void removeEnclosingParenthesis() {
+		setValue(value.substring(1, value.length()-1));
+	}
+
+	public String getValue() {
+		return value;
 	}
 }

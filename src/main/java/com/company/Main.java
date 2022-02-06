@@ -13,7 +13,7 @@ public class Main {
             System.out.println(structure);
 
             ArrayList<String> formulas = new ArrayList<>(Arrays.asList(
-                "¬(EF(c∧d)UEF(a∧b))",
+                "¬(EF(c^d)UEF(a^b))",
                 "∀F(a)",
                 "¬∀F(a)",
                 "∀F(a^b)",

@@ -1,1 +1,1 @@
-¬(EtrueU¬(EF(idle1 ∧ idle2)))
+¬(EtrueU¬(EF(idle1 ^ idle2)))

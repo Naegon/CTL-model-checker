@@ -22,13 +22,10 @@ public class State {
         this.transitions = transitions;
     }
 
-//    @Override
-//    public String toString() {
-//        return '\n' +
-//                "    ↳ | name: " + name + '\n' +
-//                "        | values: " + values + '\n' +
-//                "        | transitions: " + transitions;
-//    }
+    @Override
+    public String toString() {
+        return name;
+    }
 
     @Override
     public boolean equals(Object o) {
